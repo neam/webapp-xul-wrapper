@@ -244,6 +244,10 @@ if [ $BUILD_MAC == 1 ]; then
 	cp -r "$CALLDIR/mac/Contents" "$APPDIR"
 	CONTENTSDIR="$APPDIR/Contents"
 	
+	# Copy plugins
+	mkdir -p "$APPDIR/plugins"
+	cp -r "$CALLDIR/plugins/mac/" "$CONTENTSDIR/Resources/plugins/"
+
 	# Merge xulrunner and relevant assets
 	mkdir "$CONTENTSDIR/MacOS"
 	cp -a "$MAC_RUNTIME_PATH/Versions/Current"/* "$CONTENTSDIR/MacOS"
@@ -310,6 +314,10 @@ if [ $BUILD_WIN32 == 1 ]; then
 	APPDIR="$STAGEDIR/Zotero_win32"
 	mkdir "$APPDIR"
 	
+	# Copy plugins
+	mkdir -p "$APPDIR/plugins"
+	cp -r "$CALLDIR/plugins/win32/" "$APPDIR/plugins/"
+
 	# Merge xulrunner and relevant assets
 	cp -R "$BUILDDIR/zotero/"* "$BUILDDIR/application.ini" "$APPDIR"
 	cp -r "$WIN32_RUNTIME_PATH" "$APPDIR/xulrunner"
@@ -421,6 +429,10 @@ if [ $BUILD_LINUX == 1 ]; then
 		APPDIR="$STAGEDIR/Zotero_linux-$arch"
 		rm -rf "$APPDIR"
 		mkdir "$APPDIR"
+
+		# Copy plugins
+		mkdir -p "$APPDIR/plugins"
+		cp -r "$CALLDIR/plugins/linux-$arch/" "$APPDIR/plugins/"
 		
 		# Merge xulrunner and relevant assets
 		cp -R "$BUILDDIR/zotero/"* "$BUILDDIR/application.ini" "$APPDIR"
