@@ -34,3 +34,15 @@ dialog
 	margin-left: 10px;
 	margin-bottom: 5px;
 }
+
+.url
+{
+    color: #0000ff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.url:hover
+{
+    color: #ff0000;
+}

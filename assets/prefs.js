@@ -127,3 +127,8 @@ pref("app.update.incompatible.mode", 0);
 
 // update channel for this build
 pref("app.update.channel", "default");
+
+// suppress external-load warning for standard browser schemes
+pref("network.protocol-handler.warn-external.http", false);
+pref("network.protocol-handler.warn-external.https", false);
+pref("network.protocol-handler.warn-external.ftp", false);

@@ -1,4 +1,5 @@
 ﻿<!ENTITY  brandShortName        "Webapp XUL Wrapper">
 <!ENTITY  brandFullName         "Webapp XUL Wrapper">
+<!ENTITY  vendorUrl             "http://www.example.com">
 <!ENTITY  vendorShortName       "Webapp XUL Wrapper Contributors">
 <!ENTITY  logoCopyright         "©2012 Webapp XUL Wrapper Contributors. All rights reserved.">
