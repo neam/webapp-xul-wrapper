@@ -145,6 +145,9 @@ if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 # Copy icons
 cp -r "$CALLDIR/assets/icons" "$BUILDDIR/$MODULE/chrome/icons"
 
+# Copy web app
+cp -r "$CALLDIR/modules/$WEBAPPMODULE/" "$BUILDDIR/$MODULE/chrome/webapp/"
+
 # Copy application.ini and modify
 cp "$CALLDIR/assets/application.ini" "$BUILDDIR/application.ini"
 perl -pi -e "s/{{VERSION}}/$VERSION/" "$BUILDDIR/application.ini"
