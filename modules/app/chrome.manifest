@@ -1,0 +1,9 @@
+content	app				chrome/content/app/
+content	app-platform		chrome/content/app-platform/		platform
+
+locale	app	en-US		chrome/locale/en-US/app/
+
+skin		app	default		chrome/skin/default/app/
+
+component	{d1931d9e-be49-4130-a386-a654314a973a}			components/app-service.js
+contract	@webapp-xul-wrapper/App;1					{d1931d9e-be49-4130-a386-a654314a973a}

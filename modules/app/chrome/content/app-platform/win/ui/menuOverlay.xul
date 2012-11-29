@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+    ***** BEGIN LICENSE BLOCK *****
+
+	Copyright © 2012 Webapp XUL Wrapper contributors
+    Copyright © 2009 Center for History and New Media
+                     George Mason University, Fairfax, Virginia, USA
+                     http://zotero.org
+
+    This file is part of Webapp XUL Wrapper.
+
+    Webapp XUL Wrapper is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Webapp XUL Wrapper is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with Webapp XUL Wrapper.  If not, see <http://www.gnu.org/licenses/>.
+
+    ***** END LICENSE BLOCK *****
+-->
+
+<!DOCTYPE overlay [
+<!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd">
+%brandDTD;
+<!ENTITY % standaloneDTD SYSTEM "chrome://app/locale/menus.dtd" >
+%standaloneDTD;
+]>
+<overlay id="menuOverlay"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <menupopup id="menu_FilePopup">
+		<menuseparator/>
+		<menuitem id="menu_FileQuitItem" 
+				label="&quitApplicationCmdWin.label;"
+				key="key_quitApplication"
+				command="cmd_quitApplication"/>
+    </menupopup>
+    <!--<menupopup id="menu_ToolsPopup">
+		<menuseparator/>
+        <menuitem id="menu_preferences"
+				label="&preferencesCmd.label;"
+				oncommand="ZoteroPane.openPreferences();"/>
+    </menupopup>-->
+</overlay>

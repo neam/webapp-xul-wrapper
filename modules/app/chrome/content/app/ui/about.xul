@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://app/skin/about.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://app/locale/about.dtd">
+
+<dialog
+	id="app-about"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	orient="vertical"
+	buttons="accept"
+	buttonlabelaccept="&app.about.closeLabel;"
+	onload="moveToAlertPosition(); sizeToContent();"
+	ondialogaccept="return true;">
+	
+	<script src="include.js"/>
+	
+	<vbox id="aboutcontent">
+		<label id="name" value="APPNANANAN"/>
+		<hbox>
+			<label class="app-text-link" href="http://app.org" value="http://sdfsfsdfsdfds.org"/>
+		</hbox>
+		<label id="version" value="&app.versionLabel;"/>
+		<script>
+			document.getElementById('version').value += APP_CONFIG.VERSION;
+		</script>
+	</vbox>
+</dialog>
