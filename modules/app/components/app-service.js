@@ -35,6 +35,7 @@ const modulesAll = [
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 
 var zContext = null;
+var isFirstLoadThisSession = true;
 
 AppContext = function() {}
 AppContext.prototype = {
@@ -66,7 +67,7 @@ function makeAppContext() {
 		zContext.App = function() {};
 	}
 	
-	// Load zotero.js first
+	// Load app.js first
 	Cc["@mozilla.org/moz/jssubscript-loader;1"]
 	.getService(Ci.mozIJSSubScriptLoader)
 	.loadSubScript("chrome://app/content/app.js", zContext);
@@ -102,6 +103,7 @@ function AppService() {
 				throw e;
 			}
 		}
+		isFirstLoadThisSession = false;
 		this.wrappedJSObject = zContext.App;
 		
 		zContext.App.debug("Initialized in "+(Date.now() - start)+" ms");

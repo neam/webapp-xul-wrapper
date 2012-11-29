@@ -12,7 +12,7 @@
 	onload="moveToAlertPosition(); sizeToContent();"
 	ondialogaccept="return true;">
 	
-	<script src="include.js"/>
+	<script src="../init.js"/>
 	
 	<vbox id="aboutcontent">
 		<label id="name" value="APPNANANAN"/>
@@ -21,7 +21,7 @@
 		</hbox>
 		<label id="version" value="&app.versionLabel;"/>
 		<script>
-			document.getElementById('version').value += APP_CONFIG.VERSION;
+			document.getElementById('version').value += App.version;
 		</script>
 	</vbox>
 </dialog>

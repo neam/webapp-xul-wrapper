@@ -11,6 +11,9 @@
 <!ENTITY quitApplicationCmdMac.key "Q">
 
 <!--FILE MENU-->
+<!ENTITY closeCmd.label "Close">
+<!ENTITY closeCmd.key "W">
+<!ENTITY closeCmd.accesskey "C">
 <!ENTITY quitApplicationCmdWin.label "Exit">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmd.label "Quit">

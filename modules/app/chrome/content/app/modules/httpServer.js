@@ -14,9 +14,9 @@ App.HttpServer = new function() {
 		var server = new HttpServer();
 
 		// serve webapp directory
-		server.registerDirectory("/", Wrapper.getWebAppDirectory());
+		server.registerDirectory("/", App.getWebAppDirectory());
 
-		var prefs = Wrapper.getRootPrefBranch();
+		var prefs = App.getRootPrefBranch();
 
 		try {
 			// bind to a random port on loopback only

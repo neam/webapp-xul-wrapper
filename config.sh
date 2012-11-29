@@ -45,6 +45,3 @@ DISTDIR="$CALLDIR/dist"
 # App name
 APPNAME="Webapp XUL Wrapper"
 APPNAME_WO_SPACES="Webapp_XUL_Wrapper"
-
-# Repository URL
-URL="git://github.com/zotero/zotero.git"

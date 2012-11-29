@@ -41,9 +41,6 @@
 		<command id="minimizeWindow"
 				label="&minimizeWindow.label;"
 				oncommand="window.minimize();" />
-		<command id="zoomWindow"
-				label="&zoomWindow.label;"
-				oncommand="zoomWindow();" />
 	</commandset>
 	
 	<keyset id="mainKeyset">
@@ -112,7 +109,6 @@
 		</template>
         <menupopup id="menu_windowPopup">
             <menuitem command="minimizeWindow" label="&minimizeWindow.label;" key="key_minimizeWindow"/>
-            <menuitem command="zoomWindow" label="&zoomWindow.label;"/>
             <!-- decomment when "BringAllToFront" is implemented
                 <menuseparator/>
                 <menuitem label="&bringAllToFront.label;" disabled="true"/> -->

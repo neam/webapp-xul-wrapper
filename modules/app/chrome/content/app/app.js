@@ -24,10 +24,6 @@
     ***** END LICENSE BLOCK *****
 */
 
-const APP_CONFIG = {
-	VERSION: "0.0.0" // replaced by build.sh
-};
-
 /*
  * Common functions
  */
@@ -75,7 +71,7 @@ const APP_CONFIG = {
 	 */
 	function _initModules() {
 		if(getRootPrefBranch().getBoolPref("app.httpServer.enabled")) {
-			Wrapper.HttpServer.init();
+			App.HttpServer.init();
 		}
 		return true;
 	}
@@ -105,7 +101,7 @@ const APP_CONFIG = {
 		dump(msg);
 	}
 
-}).call(Wrapper);
+}).call(App);
 
 
 

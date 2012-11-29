@@ -33,7 +33,7 @@ const MainUI = new function() {
 	 * Opens the about dialog
 	 */
 	this.openAboutDialog = function() {
-		window.openDialog('chrome://app/content/about.xul', 'about', 'chrome');
+		window.openDialog('chrome://app/content/ui/about.xul', 'about', 'chrome');
 	}
 
 	/**

@@ -112,10 +112,6 @@ if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 	find "$BUILDDIR/$MODULE/chrome" -depth -type d -name .git -exec rm -rf {} \;
 	find "$BUILDDIR/$MODULE/chrome" -name .DS_Store -exec rm -f {} \;
 	
-	# Set version
-	perl -pi -e "s/VERSION: \"[^\"]*\"/VERSION: \"$VERSION\"/" \
-		"$BUILDDIR/$MODULE/chrome/content/$MODULE/$MODULE.js"
-	
 	# Zip chrome into JAR
 	cd "$BUILDDIR/$MODULE/chrome"
 	# Checkout failed -- bail
