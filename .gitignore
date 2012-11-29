@@ -3,3 +3,5 @@ plugins/linux-i686
 plugins/linux-x86_64
 plugins/mac
 plugins/win32
+staging
+dist
