@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Copyright (c) 2012  Webapp XUL Wrapper contributors
 # Copyright (c) 2011  Zotero
 #                     Center for History and New Media
 #                     George Mason University, Fairfax, Virginia, USA
@@ -31,7 +32,6 @@ function usage {
 Usage: $0 [-p PLATFORMS] [-s DIR] [-v VERSION] [-c CHANNEL] [-d]
 Options
  -p PLATFORMS        build for platforms PLATFORMS (m=Mac, w=Windows, l=Linux)
- -s DIR              build symlinked to Zotero checkout DIR (implies -d)
  -v VERSION          use version VERSION
  -c CHANNEL          use update channel CHANNEL
  -d                  don't package; only build binaries in staging/ directory
@@ -94,101 +94,39 @@ mkdir "$DISTDIR"
 
 if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 
-if [ ! -z "$SYMLINK_DIR" ]; then
-	echo "Building Zotero from $SYMLINK_DIR"
-	
-	cp -RH "$SYMLINK_DIR" "$BUILDDIR/zotero"
-	cd "$BUILDDIR/zotero"
-	if [ $? != 0 ]; then
-		exit
-	fi
+	echo "Building from bundled submodule '$MODULE'"
+
+	# Copy app directory
+	cp -RH "$CALLDIR/modules/$MODULE" "$BUILDDIR/$MODULE"
+	cd "$CALLDIR/modules/$MODULE"
 	REV=`git log -n 1 --pretty='format:%h'`
-	VERSION="$DEFAULT_VERSION_PREFIX$REV"
-	find . -depth -type d -name .git -exec rm -rf {} \;
-	
-	# Windows can't actually symlink; copy instead, with a note
-	if [ "$WIN_NATIVE" == 1 ]; then
-		echo "Windows host detected; copying files instead of symlinking"
-		
-		# Copy branding
-		cp -R "$CALLDIR/assets/branding" "$BUILDDIR/zotero/chrome/branding"
-		find "$BUILDDIR/zotero/chrome/branding" -depth -type d -name .git -exec rm -rf {} \;
-		find "$BUILDDIR/zotero/chrome/branding" -name .DS_Store -exec rm -f {} \;
-	else	
-		# Symlink chrome dirs
-		rm -rf "$BUILDDIR/zotero/chrome/"*
-		for i in `ls $SYMLINK_DIR/chrome`; do
-			ln -s "$SYMLINK_DIR/chrome/$i" "$BUILDDIR/zotero/chrome/$i"
-		done
-		
-		# Symlink translators and styles
-		rm -rf "$BUILDDIR/zotero/translators" "$BUILDDIR/zotero/styles"
-		ln -s "$SYMLINK_DIR/translators" "$BUILDDIR/zotero/translators"
-		ln -s "$SYMLINK_DIR/styles" "$BUILDDIR/zotero/styles"
-		
-		# Symlink branding
-		ln -s "$CALLDIR/assets/branding" "$BUILDDIR/zotero/chrome/branding"
-	fi
-	
-	# Add to chrome manifest
-	echo "" >> "$BUILDDIR/zotero/chrome.manifest"
-	cat "$CALLDIR/assets/chrome.manifest" >> "$BUILDDIR/zotero/chrome.manifest"
-else
-	echo "Building from bundled submodule"
-	
-	# Copy Zotero directory
-	cp -RH "$CALLDIR/modules/zotero" "$BUILDDIR/zotero"
-	cd "$BUILDDIR/zotero"
-	REV=`git log -n 1 --pretty='format:%h'`
-	
+
 	if [ -z "$VERSION" ]; then
 		VERSION="$DEFAULT_VERSION_PREFIX$REV"
 	fi
 	
 	# Copy branding
-	cp -R "$CALLDIR/assets/branding" "$BUILDDIR/zotero/chrome/branding"
+	cp -R "$CALLDIR/assets/branding" "$BUILDDIR/$MODULE/chrome/branding"
 	
 	# Delete files that shouldn't be distributed
-	find "$BUILDDIR/zotero/chrome" -depth -type d -name .git -exec rm -rf {} \;
-	find "$BUILDDIR/zotero/chrome" -name .DS_Store -exec rm -f {} \;
+	find "$BUILDDIR/$MODULE/chrome" -depth -type d -name .git -exec rm -rf {} \;
+	find "$BUILDDIR/$MODULE/chrome" -name .DS_Store -exec rm -f {} \;
 	
 	# Set version
 	perl -pi -e "s/VERSION: \"[^\"]*\"/VERSION: \"$VERSION\"/" \
-		"$BUILDDIR/zotero/chrome/content/zotero/xpcom/zotero.js"
+		"$BUILDDIR/$MODULE/chrome/content/$MODULE/$MODULE.js"
 	
 	# Zip chrome into JAR
-	cd "$BUILDDIR/zotero/chrome"
+	cd "$BUILDDIR/$MODULE/chrome"
 	# Checkout failed -- bail
 	if [ $? -eq 1 ]; then
 		exit;
 	fi
-	zip -0 -r -q ../zotero.jar .
-	rm -rf "$BUILDDIR/zotero/chrome/"*
-	mv ../zotero.jar .
+	zip -0 -r -q ../$MODULE.jar .
+	rm -rf "$BUILDDIR/$MODULE/chrome/"*
+	mv ../$MODULE.jar .
 	cd ..
-	
-	# Build translators.zip
-	echo "Building translators.zip"
-	cd "$BUILDDIR/zotero/translators"
-	mkdir output
-	counter=0;
-	for file in *.js; do
-		newfile=$counter.js;
-		id=`grep -m 1 '"translatorID" *: *"' "$file" | perl -pe 's/.*"translatorID"\s*:\s*"(.*)".*/\1/'`
-		label=`grep -m 1 '"label" *: *"' "$file" | perl -pe 's/.*"label"\s*:\s*"(.*)".*/\1/'`
-		mtime=`grep -m 1 '"lastUpdated" *: *"' "$file" | perl -pe 's/.*"lastUpdated"\s*:\s*"(.*)".*/\1/'`
-		echo $newfile,$id,$label,$mtime >> ../translators.index
-		cp "$file" output/$newfile;
-		counter=$(($counter+1))
-	done;
-	cd output
-	zip -q ../../translators.zip *
-	cd ../..
-	
-	# Delete translators directory except for deleted.txt
-	mv translators/deleted.txt deleted.txt
-	rm -rf translators
-	
+		
 	# Build styles.zip with default styles
 	if [ -d styles ]; then
 		echo "Building styles.zip"
@@ -200,21 +138,16 @@ else
 	fi
 	
 	# Adjust chrome.manifest
-	echo "" >> "$BUILDDIR/zotero/chrome.manifest"
-	cat "$CALLDIR/assets/chrome.manifest" >> "$BUILDDIR/zotero/chrome.manifest"
+	echo "" >> "$BUILDDIR/$MODULE/chrome.manifest"
+	cat "$CALLDIR/assets/chrome.manifest" >> "$BUILDDIR/$MODULE/chrome.manifest"
 	
 	# Copy updater.ini
-	cp "$CALLDIR/assets/updater.ini" "$BUILDDIR/zotero"
+	cp "$CALLDIR/assets/updater.ini" "$BUILDDIR/$MODULE"
 	
-	perl -pi -e 's/chrome\//jar:chrome\/zotero.jar\!\//g' "$BUILDDIR/zotero/chrome.manifest"
-fi
-
-# Adjust connector pref
-perl -pi -e 's/pref\("extensions\.zotero\.httpServer\.enabled", false\);/pref("extensions.zotero.httpServer.enabled", true);/g' "$BUILDDIR/zotero/defaults/preferences/zotero.js"
-perl -pi -e 's/pref\("extensions\.zotero\.connector\.enabled", false\);/pref("extensions.zotero.connector.enabled", true);/g' "$BUILDDIR/zotero/defaults/preferences/zotero.js"
+	perl -pi -e 's/chrome\//jar:chrome\/'$MODULE'.jar\!\//g' "$BUILDDIR/$MODULE/chrome.manifest"
 
 # Copy icons
-cp -r "$CALLDIR/assets/icons" "$BUILDDIR/zotero/chrome/icons"
+cp -r "$CALLDIR/assets/icons" "$BUILDDIR/$MODULE/chrome/icons"
 
 # Copy application.ini and modify
 cp "$CALLDIR/assets/application.ini" "$BUILDDIR/application.ini"
@@ -222,9 +155,9 @@ perl -pi -e "s/{{VERSION}}/$VERSION/" "$BUILDDIR/application.ini"
 perl -pi -e "s/{{BUILDID}}/$BUILDID/" "$BUILDDIR/application.ini"
 
 # Copy prefs.js and modify
-cp "$CALLDIR/assets/prefs.js" "$BUILDDIR/zotero/defaults/preferences"
-perl -pi -e 's/pref\("app\.update\.channel", "[^"]*"\);/pref\("app\.update\.channel", "'"$UPDATE_CHANNEL"'");/' "$BUILDDIR/zotero/defaults/preferences/prefs.js"
-perl -pi -e 's/%GECKO_VERSION%/'"$GECKO_VERSION"'/g' "$BUILDDIR/zotero/defaults/preferences/prefs.js"
+cp "$CALLDIR/assets/prefs.js" "$BUILDDIR/$MODULE/defaults/preferences"
+perl -pi -e 's/pref\("app\.update\.channel", "[^"]*"\);/pref\("app\.update\.channel", "'"$UPDATE_CHANNEL"'");/' "$BUILDDIR/$MODULE/defaults/preferences/prefs.js"
+perl -pi -e 's/%GECKO_VERSION%/'"$GECKO_VERSION"'/g' "$BUILDDIR/$MODULE/defaults/preferences/prefs.js"
 
 # Delete .DS_Store and .git
 find "$BUILDDIR" -depth -type d -name .git -exec rm -rf {} \;
@@ -234,10 +167,10 @@ cd "$CALLDIR"
 
 # Mac
 if [ $BUILD_MAC == 1 ]; then
-	echo 'Building Zotero.app'
+	echo "Building $APPNAME.app"
 		
 	# Set up directory structure
-	APPDIR="$STAGEDIR/Zotero.app"
+	APPDIR="$STAGEDIR/$APPNAME.app"
 	rm -rf "$APPDIR"
 	mkdir "$APPDIR"
 	chmod 755 "$APPDIR"
@@ -246,13 +179,13 @@ if [ $BUILD_MAC == 1 ]; then
 	
 	# Copy plugins
 	mkdir -p "$APPDIR/plugins"
-	cp -r "$CALLDIR/plugins/mac/" "$CONTENTSDIR/Resources/plugins/"
+	cp -r "$CALLDIR/plugins/mac/"* "$CONTENTSDIR/Resources/plugins/"
 
 	# Merge xulrunner and relevant assets
 	mkdir "$CONTENTSDIR/MacOS"
 	cp -a "$MAC_RUNTIME_PATH/Versions/Current"/* "$CONTENTSDIR/MacOS"
-	mv "$CONTENTSDIR/MacOS/xulrunner" "$CONTENTSDIR/MacOS/zotero-bin"
-	cp "$CALLDIR/mac/zotero" "$CONTENTSDIR/MacOS/zotero"
+	mv "$CONTENTSDIR/MacOS/xulrunner" "$CONTENTSDIR/MacOS/$MODULE-bin"
+	cp "$CALLDIR/mac/$MODULE" "$CONTENTSDIR/MacOS/$MODULE"
 	cp "$BUILDDIR/application.ini" "$CONTENTSDIR/Resources"
 	cp "$CALLDIR/mac/Contents/Info.plist" "$CONTENTSDIR"
 	
@@ -265,23 +198,15 @@ if [ $BUILD_MAC == 1 ]; then
 	rm -f "$CONTENTSDIR/Info.plist.bak"
 	
 	# Add components
-	cp -R "$BUILDDIR/zotero/"* "$CONTENTSDIR/Resources"
+	cp -R "$BUILDDIR/$MODULE/"* "$CONTENTSDIR/Resources"
 	
 	# Add Mac-specific Standalone assets
 	cd "$CALLDIR/assets/mac"
-	zip -0 -r -q "$CONTENTSDIR/Resources/chrome/zotero.jar" *
-	
-	# Add word processor plug-ins
-	mkdir "$CONTENTSDIR/Resources/extensions"
-	cp -RH "$CALLDIR/modules/zotero-word-for-mac-integration" "$CONTENTSDIR/Resources/extensions/zoteroMacWordIntegration@zotero.org"
-	cp -RH "$CALLDIR/modules/zotero-libreoffice-integration" "$CONTENTSDIR/Resources/extensions/zoteroOpenOfficeIntegration@zotero.org"
-	perl -pi -e 's/SOURCE<\/em:version>/SA.'"$VERSION"'<\/em:version>/' "$CONTENTSDIR/Resources/extensions/zoteroMacWordIntegration@zotero.org/install.rdf"
-	perl -pi -e 's/SOURCE<\/em:version>/SA.'"$VERSION"'<\/em:version>/' "$CONTENTSDIR/Resources/extensions/zoteroOpenOfficeIntegration@zotero.org/install.rdf"
+	zip -0 -r -q "$CONTENTSDIR/Resources/chrome/$MODULE.jar" *
 	
 	# Delete extraneous files
 	find "$CONTENTSDIR" -depth -type d -name .git -exec rm -rf {} \;
 	find "$CONTENTSDIR" \( -name .DS_Store -or -name update.rdf \) -exec rm -f {} \;
-	find "$CONTENTSDIR/Resources/extensions" -depth -type d -name build -exec rm -rf {} \;
 	
 	# Sign
 	if [ $SIGN == 1 ]; then
@@ -294,35 +219,35 @@ if [ $BUILD_MAC == 1 ]; then
 	if [ $PACKAGE == 1 ]; then
 		if [ $MAC_NATIVE == 1 ]; then
 			echo 'Creating Mac installer'
-			"$CALLDIR/mac/pkg-dmg" --source "$STAGEDIR/Zotero.app" \
-				--target "$DISTDIR/Zotero-$VERSION.dmg" \
-				--sourcefile --volname Zotero --copy "$CALLDIR/mac/DSStore:/.DS_Store" \
+			"$CALLDIR/mac/pkg-dmg" --source "$STAGEDIR/$APPNAME.app" \
+				--target "$DISTDIR/$APPNAME_WO_SPACES-$VERSION.dmg" \
+				--sourcefile --volname "$APPNAME_WO_SPACES" --copy "$CALLDIR/mac/DSStore:/.DS_Store" \
 				--symlink /Applications:"/Drag Here to Install" > /dev/null
 		else
 			echo 'Not building on Mac; creating Mac distribution as a zip file'
-			rm -f "$DISTDIR/Zotero_mac.zip"
-			cd "$STAGEDIR" && zip -rqX "$DISTDIR/Zotero-$VERSION_mac.zip" Zotero.app
+			rm -f "$DISTDIR/${APPNAME_WO_SPACES}_mac.zip"
+			cd "$STAGEDIR" && zip -rqX "$DISTDIR/$APPNAME-$VERSION_mac.zip" $APPNAME.app
 		fi
 	fi
 fi
 
 # Win32
 if [ $BUILD_WIN32 == 1 ]; then
-	echo 'Building Zotero_win32'
+	echo "Building ${APPNAME_WO_SPACES}_win32"
 	
 	# Set up directory
-	APPDIR="$STAGEDIR/Zotero_win32"
+	APPDIR="$STAGEDIR/${APPNAME_WO_SPACES}_win32"
 	mkdir "$APPDIR"
 	
 	# Copy plugins
 	mkdir -p "$APPDIR/plugins"
-	cp -r "$CALLDIR/plugins/win32/" "$APPDIR/plugins/"
+	cp -r "$CALLDIR/plugins/win32/"* "$APPDIR/plugins/"
 
 	# Merge xulrunner and relevant assets
-	cp -R "$BUILDDIR/zotero/"* "$BUILDDIR/application.ini" "$APPDIR"
+	cp -R "$BUILDDIR/$MODULE/"* "$BUILDDIR/application.ini" "$APPDIR"
 	cp -r "$WIN32_RUNTIME_PATH" "$APPDIR/xulrunner"
 	
-	mv "$APPDIR/xulrunner/xulrunner-stub.exe" "$APPDIR/zotero.exe"
+	mv "$APPDIR/xulrunner/xulrunner-stub.exe" "$APPDIR/$MODULE.exe"
 	
 	# This used to be bug 722810, but that bug was actually fixed for Gecko 12. Now it's
 	# unfortunately broken again.
@@ -332,32 +257,20 @@ if [ $BUILD_WIN32 == 1 ]; then
 	
 	# Add Windows-specific Standalone assets
 	cd "$CALLDIR/assets/win"
-	zip -0 -r -q "$APPDIR/chrome/zotero.jar" *
-	
-	# Add word processor plug-ins
-	mkdir "$APPDIR/extensions"
-	cp -RH "$CALLDIR/modules/zotero-word-for-windows-integration" "$APPDIR/extensions/zoteroWinWordIntegration@zotero.org"
-	cp -RH "$CALLDIR/modules/zotero-libreoffice-integration" "$APPDIR/extensions/zoteroOpenOfficeIntegration@zotero.org"
-	perl -pi -e 's/SOURCE<\/em:version>/SA.'"$VERSION"'<\/em:version>/' "$APPDIR/extensions/zoteroWinWordIntegration@zotero.org/install.rdf"
-	perl -pi -e 's/SOURCE<\/em:version>/SA.'"$VERSION"'<\/em:version>/' "$APPDIR/extensions/zoteroOpenOfficeIntegration@zotero.org/install.rdf"
-	
-	# Remove unnecessary dlls
-	rm "$APPDIR/extensions/zoteroWinWordIntegration@zotero.org/components/zoteroWinWordIntegration.dll"
-	rm -rf "$APPDIR/extensions/zoteroWinWordIntegration@zotero.org/"components-!($GECKO_VERSION)
+	zip -0 -r -q "$APPDIR/chrome/$MODULE.jar" *
 	
 	# Delete extraneous files
 	rm "$APPDIR/xulrunner/js.exe" "$APPDIR/xulrunner/redit.exe"
 	find "$APPDIR" -depth -type d -name .git -exec rm -rf {} \;
 	find "$APPDIR" \( -name .DS_Store -or -name update.rdf \) -exec rm -f {} \;
-	find "$APPDIR/extensions" -depth -type d -name build -exec rm -rf {} \;
 	find "$APPDIR" \( -name '*.exe' -or -name '*.dll' \) -exec chmod 755 {} \;
 	
 	if [ $PACKAGE == 1 ]; then
 		if [ $WIN_NATIVE == 1 ]; then
-			INSTALLER_PATH="$DISTDIR/Zotero-${VERSION}_setup.exe"
+			INSTALLER_PATH="$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}_setup.exe"
 			
 			# Add icon to xulrunner-stub
-			"$CALLDIR/win/ReplaceVistaIcon/ReplaceVistaIcon.exe" "`cygpath -w \"$APPDIR/zotero.exe\"`" \
+			"$CALLDIR/win/ReplaceVistaIcon/ReplaceVistaIcon.exe" "`cygpath -w \"$APPDIR/$MODULE.exe\"`" \
 				"`cygpath -w \"$CALLDIR/assets/icons/default/main-window.ico\"`"
 			
 			echo 'Creating Windows installer'
@@ -369,13 +282,13 @@ if [ $BUILD_WIN32 == 1 ]; then
 			mkdir "$APPDIR/uninstall"
 			mv "$BUILDDIR/win_installer/helper.exe" "$APPDIR/uninstall"
 			
-			# Sign zotero.exe, updater, and uninstaller
+			# Sign $MODULE.exe, updater, and uninstaller
 			if [ $SIGN == 1 ]; then
-				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "Zotero" \
-					/du "$SIGNATURE_URL" "`cygpath -w \"$APPDIR/zotero.exe\"`"
-				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "Zotero Updater" \
+				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "$APPNAME" \
+					/du "$SIGNATURE_URL" "`cygpath -w \"$APPDIR/$MODULE.exe\"`"
+				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "$APPNAME Updater" \
 					/du "$SIGNATURE_URL" "`cygpath -w \"$APPDIR/xulrunner/updater.exe\"`"
-				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "Zotero Uninstaller" \
+				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "$APPNAME Uninstaller" \
 					/du "$SIGNATURE_URL" "`cygpath -w \"$APPDIR/uninstall/helper.exe\"`"
 			fi
 			
@@ -389,7 +302,7 @@ if [ $BUILD_WIN32 == 1 ]; then
 			"`cygpath -u \"$MAKENSISU\"`" /V1 "`cygpath -w \"$BUILDDIR/win_installer/installer.nsi\"`"
 			mv "$BUILDDIR/win_installer/setup.exe" "$INSTALLERSTAGEDIR"
 			if [ $SIGN == 1 ]; then
-				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "Zotero Setup" \
+				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "$APPNAME Setup" \
 					/du "$SIGNATURE_URL" "`cygpath -w \"$INSTALLERSTAGEDIR/setup.exe\"`"
 			fi
 			
@@ -405,9 +318,9 @@ if [ $BUILD_WIN32 == 1 ]; then
 			cat "$BUILDDIR/7zSD.sfx" "$CALLDIR/win/installer/app.tag" \
 				"$BUILDDIR/app_win32.7z" > "$INSTALLER_PATH"
 			
-			# Sign Zotero_setup.exe
+			# Sign ${APPNAME_WO_SPACES}_setup.exe
 			if [ $SIGN == 1 ]; then
-				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "Zotero Setup" \
+				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "$APPNAME Setup" \
 					/du "$SIGNATURE_URL" "`cygpath -w \"$INSTALLER_PATH\"`"
 			fi
 			
@@ -415,7 +328,7 @@ if [ $BUILD_WIN32 == 1 ]; then
 		else
 			echo 'Not building on Windows; only building zip file'
 		fi
-		cd "$STAGEDIR" && zip -rqX "$DISTDIR/Zotero-${VERSION}_win32.zip" Zotero_win32
+		cd "$STAGEDIR" && zip -rqX "$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}_win32.zip" ${APPNAME_WO_SPACES}_win32
 	fi
 fi
 
@@ -425,46 +338,40 @@ if [ $BUILD_LINUX == 1 ]; then
 		RUNTIME_PATH=`eval echo '$LINUX_'$arch'_RUNTIME_PATH'`
 		
 		# Set up directory
-		echo 'Building Zotero_linux-'$arch
-		APPDIR="$STAGEDIR/Zotero_linux-$arch"
+		echo "Building ${APPNAME_WO_SPACES}_linux-"$arch
+		APPDIR="$STAGEDIR/${APPNAME_WO_SPACES}_linux-$arch"
 		rm -rf "$APPDIR"
 		mkdir "$APPDIR"
 
 		# Copy plugins
 		mkdir -p "$APPDIR/plugins"
-		cp -r "$CALLDIR/plugins/linux-$arch/" "$APPDIR/plugins/"
+		cp -r "$CALLDIR/plugins/linux-$arch/"* "$APPDIR/plugins/"
 		
 		# Merge xulrunner and relevant assets
-		cp -R "$BUILDDIR/zotero/"* "$BUILDDIR/application.ini" "$APPDIR"
+		cp -R "$BUILDDIR/$MODULE/"* "$BUILDDIR/application.ini" "$APPDIR"
 		cp -r "$RUNTIME_PATH" "$APPDIR/xulrunner"
-		mv "$APPDIR/xulrunner/xulrunner-stub" "$APPDIR/zotero"
-		chmod 755 "$APPDIR/zotero"
+		mv "$APPDIR/xulrunner/xulrunner-stub" "$APPDIR/$MODULE"
+		chmod 755 "$APPDIR/$MODULE"
 	
 		# Add Unix-specific Standalone assets
 		cd "$CALLDIR/assets/unix"
-		zip -0 -r -q "$APPDIR/chrome/zotero.jar" *
-		
-		# Add word processor plug-ins
-		mkdir "$APPDIR/extensions"
-		cp -RH "$CALLDIR/modules/zotero-libreoffice-integration" "$APPDIR/extensions/zoteroOpenOfficeIntegration@zotero.org"
-		perl -pi -e 's/SOURCE<\/em:version>/SA.'"$VERSION"'<\/em:version>/' "$APPDIR/extensions/zoteroOpenOfficeIntegration@zotero.org/install.rdf"
+		zip -0 -r -q "$APPDIR/chrome/$MODULE.jar" *
 		
 		# Delete extraneous files
 		find "$APPDIR" -depth -type d -name .git -exec rm -rf {} \;
 		find "$APPDIR" \( -name .DS_Store -or -name update.rdf \) -exec rm -f {} \;
-		find "$APPDIR/extensions" -depth -type d -name build -exec rm -rf {} \;
 		
-		# Add run-zotero.sh
-		cp "$CALLDIR/linux/run-zotero.sh" "$APPDIR/run-zotero.sh"
+		# Add run-$MODULE.sh
+		cp "$CALLDIR/linux/run-$MODULE.sh" "$APPDIR/run-$MODULE.sh"
 		
 		# Move icons, so that updater.png doesn't fail
 		mv "$APPDIR/xulrunner/icons" "$APPDIR/icons"
 		
 		if [ $PACKAGE == 1 ]; then
 			# Create tar
-			rm -f "$DISTDIR/Zotero-${VERSION}_linux-$arch.tar.bz2"
+			rm -f "$DISTDIR/$APPNAME-${VERSION}_linux-$arch.tar.bz2"
 			cd "$STAGEDIR"
-			tar -cjf "$DISTDIR/Zotero-${VERSION}_linux-$arch.tar.bz2" "Zotero_linux-$arch"
+			tar -cjf "$DISTDIR/$APPNAME-${VERSION}_linux-$arch.tar.bz2" "${APPNAME_WO_SPACES}_linux-$arch"
 		fi
 	done
 fi

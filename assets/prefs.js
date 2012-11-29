@@ -1,5 +1,5 @@
 // This is the URI that is loaded when Zotero Standalone is opened
-pref("toolkit.defaultChromeURI", "chrome://zotero/content/standalone/standalone.xul");
+pref("toolkit.defaultChromeURI", "chrome://app/content/ui/main.xul");
 
 // We only want a single window, I think
 pref("toolkit.singletonWindowType", "navigator:browser");
@@ -19,21 +19,9 @@ pref("javascript.options.methodjit.chrome", true);
 // Use OS locale
 pref("intl.locale.matchOS", true);
 
-// Use basicViewer for opening new DOM windows from content (for TinyMCE)
-pref("browser.chromeURL", "chrome://zotero/content/standalone/basicViewer.xul");
-// We need these to get the save dialog working with contentAreaUtils.js
-pref("browser.download.useDownloadDir", false);
-pref("browser.download.manager.showWhenStarting", false);
-pref("browser.download.folderList", 1);
-
 // Don't show add-on selection dialog
 pref("extensions.shownSelectionUI", true);
 pref("extensions.autoDisableScope", 11);
-
-pref("network.protocol-handler.expose-all", false);
-pref("network.protocol-handler.expose.zotero", true);
-pref("network.protocol-handler.expose.http", true);
-pref("network.protocol-handler.expose.https", true);
 
 // Never go offline
 pref("offline.autoDetect", false);
@@ -67,13 +55,6 @@ pref("xpinstall.whitelist.required", false);
 
 // Disable places
 pref("places.history.enabled", false);
-
-// Preferences to allow updating add-ons from AMO
-// TODO: Does this work for Standalone, or do we need to pretend to be Firefox?
-pref("extensions.update.enabled", true);
-pref("extensions.update.url", "https://versioncheck.addons.mozilla.org/update/VersionCheck.php?reqVersion=%REQ_VERSION%&id=%ITEM_ID%&version=%ITEM_VERSION%&maxAppVersion=%ITEM_MAXAPPVERSION%&status=%ITEM_STATUS%&appID={ec8030f7-c20a-464f-9b0e-13a3a9e97384}&appVersion=%GECKO_VERSION%&appOS=%APP_OS%&appABI=%APP_ABI%&locale=%APP_LOCALE%&currentAppVersion=%GECKO_VERSION%&updateType=%UPDATE_TYPE%");
-pref("extensions.update.interval", 86400);
-pref("extensions.update.autoUpdateDefault", true);
 
 /** The below is imported from https://developer.mozilla.org/en/XULRunner/Application_Update **/
 // Whether or not app updates are enabled

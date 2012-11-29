@@ -26,19 +26,25 @@ EXE7ZIP='C:\Program Files\7-Zip\7z.exe'
 
 # Paths for Windows installer build only necessary for signed binaries
 SIGNTOOL='C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\signtool.exe'
-SIGNATURE_URL='https://www.zotero.org/'
+SIGNATURE_URL='https://www.example.com/'
 
 # If version is not specified on the command line, version is this prefix followed by the revision
-DEFAULT_VERSION_PREFIX="3.0.999.SOURCE."
+DEFAULT_VERSION_PREFIX="0.0.0.SOURCE."
 # Numeric version for OS X bundle
-VERSION_NUMERIC="3.0.999"
+VERSION_NUMERIC="0.0.0"
 
 # Directory for building
-BUILDDIR="/tmp/zotero-build-`uuidgen | head -c 8`"
+BUILDDIR="/tmp/app-build-`uuidgen | head -c 8`"
+# Module to build
+MODULE="app"
 # Directory for unpacked binaries
 STAGEDIR="$CALLDIR/staging"
 # Directory for packed binaries
 DISTDIR="$CALLDIR/dist"
+
+# App name
+APPNAME="Webapp XUL Wrapper"
+APPNAME_WO_SPACES="Webapp_XUL_Wrapper"
 
 # Repository URL
 URL="git://github.com/zotero/zotero.git"
