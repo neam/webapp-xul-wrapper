@@ -187,6 +187,7 @@ if [ $BUILD_MAC == 1 ]; then
 	cp "$CALLDIR/mac/$MODULE" "$CONTENTSDIR/MacOS/$MODULE"
 	cp "$BUILDDIR/application.ini" "$CONTENTSDIR/Resources"
 	cp "$CALLDIR/mac/Contents/Info.plist" "$CONTENTSDIR"
+	cp "$CALLDIR/assets/icons/default/default.icns" "$CONTENTSDIR/Resources/$MODULE.icns"
 	
 	# Modify Info.plist
 	cp "$CALLDIR/mac/Contents/Info.plist" "$CONTENTSDIR/Info.plist"
