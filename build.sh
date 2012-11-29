@@ -177,7 +177,7 @@ if [ $BUILD_MAC == 1 ]; then
 	CONTENTSDIR="$APPDIR/Contents"
 	
 	# Copy plugins
-	mkdir -p "$APPDIR/plugins"
+	mkdir -p "$CONTENTSDIR/Resources/plugins/"
 	cp -r "$CALLDIR/plugins/mac/"* "$CONTENTSDIR/Resources/plugins/"
 
 	# Merge xulrunner and relevant assets
