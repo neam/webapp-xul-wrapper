@@ -252,7 +252,7 @@ if [ $BUILD_WIN32 == 1 ]; then
 	cp -R "$BUILDDIR/$MODULE/"* "$BUILDDIR/application.ini" "$APPDIR"
 	cp -r "$WIN32_RUNTIME_PATH" "$APPDIR/xulrunner"
 	
-	mv "$APPDIR/xulrunner/xulrunner-stub.exe" "$APPDIR/$MODULE.exe"
+	mv "$APPDIR/xulrunner/xulrunner-stub.exe" "$APPDIR/${APPNAME}.exe"
 	
 	# This used to be bug 722810, but that bug was actually fixed for Gecko 12. Now it's
 	# unfortunately broken again.

@@ -1,4 +1,4 @@
 ;!@Install@!UTF-8!
-Title="Zotero Standalone"
+Title="Webapp XUL Wrapper"
 RunProgram="setup.exe"
 ;!@InstallEnd@!

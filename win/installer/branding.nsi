@@ -40,7 +40,7 @@
 
 # BrandFullNameInternal is used for some registry and file system values
 # instead of BrandFullName and typically should not be modified.
-!define BrandFullNameInternal "Zotero Standalone"
-!define CompanyName           "zotero.org"
-!define URLInfoAbout          "http://www.zotero.org"
-!define URLUpdateInfo         "http://www.zotero.org/standalone"
+!define BrandFullNameInternal "Webapp XUL Wrapper"
+!define CompanyName           "Webapp XUL Wrapper Contributors"
+!define URLInfoAbout          "http://example.com/app/about"
+!define URLUpdateInfo         "http://example.com/app/updates"
