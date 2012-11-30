@@ -223,12 +223,12 @@ Section "Uninstall"
 
   ${MUI_INSTALLOPTIONS_READ} $0 "unconfirm.ini" "Field 3" "State"
   ${If} "$0" == "1"
-    ${un.DeleteRelativeProfiles} "Zotero\Zotero"
-    RmDir "$APPDATA\Zotero"
+    ${un.DeleteRelativeProfiles} "${AppVendor}\${AppRegName}"
+    RmDir "$APPDATA\${AppVendor}"
   ${EndIf}
 
   SetShellVarContext current  ; Set SHCTX to HKCU
-  ${un.RegCleanMain} "Software\Zotero"
+  ${un.RegCleanMain} "Software\${AppVendor}"
   ${un.RegCleanUninstall}
   ${un.DeleteShortcuts}
 
@@ -236,48 +236,24 @@ Section "Uninstall"
   ApplicationID::UninstallJumpLists "${AppUserModelID}"
 
   ClearErrors
-  WriteRegStr HKLM "Software\Zotero" "${BrandShortName}InstallerTest" "Write Test"
+  WriteRegStr HKLM "Software\${AppVendor}" "${BrandShortName}InstallerTest" "Write Test"
   ${If} ${Errors}
     StrCpy $TmpVal "HKCU" ; used primarily for logging
   ${Else}
     SetShellVarContext all  ; Set SHCTX to HKLM
-    DeleteRegValue HKLM "Software\Zotero" "${BrandShortName}InstallerTest"
+    DeleteRegValue HKLM "Software\${AppVendor}" "${BrandShortName}InstallerTest"
     StrCpy $TmpVal "HKLM" ; used primarily for logging
-    ${un.RegCleanMain} "Software\Zotero"
+    ${un.RegCleanMain} "Software\${AppVendor}"
     ${un.RegCleanUninstall}
     ${un.DeleteShortcuts}
     ${un.SetAppLSPCategories}
   ${EndIf}
   
-  ${un.RegCleanProtocolHandler} "zotero"
-  ${un.RegCleanAppHandler} "ZoteroRIS"
-  ${un.RegCleanAppHandler} "ZoteroISI"
-  ${un.RegCleanAppHandler} "ZoteroMODS"
-  ${un.RegCleanAppHandler} "ZoteroRDF"
-  ${un.RegCleanAppHandler} "ZoteroBibTeX"
-  ${un.RegCleanAppHandler} "ZoteroMARC"
-  ${un.RegCleanAppHandler} "ZoteroCSL"
-
-  ClearErrors
-  ReadRegStr $R9 HKCR "ZoteroRDF" ""
-  ; Don't clean up the file handlers if the ZoteroRDF key still exists since
-  ; there should be a second installation that may be the default file handler
-  ${If} ${Errors}
-    ${un.RegCleanFileHandler}  ".rdf"    "ZoteroRDF"
-    ${un.RegCleanFileHandler}  ".ris"    "ZoteroRIS"
-    ${un.RegCleanFileHandler}  ".isi"    "ZoteroISI"
-    ${un.RegCleanFileHandler}  ".mods"   "ZoteroMODS"
-    ${un.RegCleanFileHandler}  ".bib"    "ZoteroBibTeX"
-    ${un.RegCleanFileHandler}  ".bibtex" "ZoteroBibTeX"
-    ${un.RegCleanFileHandler}  ".marc"   "ZoteroMARC"
-    ${un.RegCleanFileHandler}  ".csl"    "ZoteroCSL"
-  ${EndIf}
-
   SetShellVarContext all  ; Set SHCTX to HKLM
-  ${un.GetSecondInstallPath} "Software\Zotero" $R9
+  ${un.GetSecondInstallPath} "Software\${AppVendor}" $R9
   ${If} $R9 == "false"
     SetShellVarContext current  ; Set SHCTX to HKCU
-    ${un.GetSecondInstallPath} "Software\Zotero" $R9
+    ${un.GetSecondInstallPath} "Software\${AppVendor}" $R9
   ${EndIf}
 
   StrCpy $0 "Software\Clients\StartMenuInternet\${FileMainEXE}\shell\open\command"
@@ -337,7 +313,7 @@ Section "Uninstall"
   ${EndIf}
 
   ; Remove the updates directory for Vista and above
-  ${un.CleanUpdatesDir} "Zotero\Standalone"
+  ${un.CleanUpdatesDir} "${AppVendor}\${AppName}"
 
   ; Remove files that may be left behind by the application in the
   ; VirtualStore directory.

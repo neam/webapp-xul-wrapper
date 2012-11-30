@@ -4994,12 +4994,12 @@
 
 !ifndef NO_INSTDIR_FROM_REG
       SetShellVarContext all      ; Set SHCTX to HKLM
-      ${GetSingleInstallPath} "Software\Zotero\${BrandFullNameInternal}" $R9
+      ${GetSingleInstallPath} "Software\${AppVendor}\${BrandFullNameInternal}" $R9
 
       StrCmp "$R9" "false" +1 finish_get_install_dir
 
       SetShellVarContext current  ; Set SHCTX to HKCU
-      ${GetSingleInstallPath} "Software\Zotero\${BrandFullNameInternal}" $R9
+      ${GetSingleInstallPath} "Software\${AppVendor}\${BrandFullNameInternal}" $R9
 
       finish_get_install_dir:
       StrCmp "$R9" "false" +2 +1

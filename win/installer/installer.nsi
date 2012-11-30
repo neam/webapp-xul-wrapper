@@ -266,7 +266,7 @@ Section "-InstallStartCleanup"
   ${EndIf}
 
   ; Remove the updates directory for Vista and above
-  ${CleanUpdatesDir} "Zotero\Zotero"
+  ${CleanUpdatesDir} "${AppVendor}\${AppName}"
 
 
   ${InstallStartCleanupCommon}
@@ -315,25 +315,23 @@ Section "-Application" APP_IDX
 
   ${LogHeader} "Adding Registry Entries"
   SetShellVarContext current  ; Set SHCTX to HKCU
-  ${RegCleanMain} "Software\Zotero"
+  ${RegCleanMain} "Software\${AppVendor}"
   ${RegCleanUninstall}
-  ${UpdateProtocolHandlers}
 
   ClearErrors
-  WriteRegStr HKLM "Software\Zotero" "${BrandShortName}InstallerTest" "Write Test"
+  WriteRegStr HKLM "Software\${AppVendor}" "${BrandShortName}InstallerTest" "Write Test"
   ${If} ${Errors}
     StrCpy $TmpVal "HKCU" ; used primarily for logging
   ${Else}
     SetShellVarContext all  ; Set SHCTX to HKLM
-    DeleteRegValue HKLM "Software\Zotero" "${BrandShortName}InstallerTest"
+    DeleteRegValue HKLM "Software\${AppVendor}" "${BrandShortName}InstallerTest"
     StrCpy $TmpVal "HKLM" ; used primarily for logging
-    ${RegCleanMain} "Software\Zotero"
+    ${RegCleanMain} "Software\${AppVendor}"
     ${RegCleanUninstall}
-    ${UpdateProtocolHandlers}
 
-    ReadRegStr $0 HKLM "Software\zotero.org\Zotero" "CurrentVersion"
+    ReadRegStr $0 HKLM "Software\${AppVendor}\${AppRegName}" "CurrentVersion"
     ${If} "$0" != "${GREVersion}"
-      WriteRegStr HKLM "Software\zotero.org\Zotero" "CurrentVersion" "${GREVersion}"
+      WriteRegStr HKLM "Software\${AppVendor}\${AppRegName}" "CurrentVersion" "${GREVersion}"
     ${EndIf}
   ${EndIf}
 
@@ -350,9 +348,6 @@ Section "-Application" APP_IDX
   ; it doesn't cause problems always add them.
   ${SetUninstallKeys}
   
-  ; Register zotero protocol handler
-  ${SetHandlers}
-
   ; The following keys should only be set if we can write to HKLM
   ${If} $TmpVal == "HKLM"
     ; If we are writing to HKLM and create either the desktop or start menu
@@ -673,7 +668,8 @@ Function LaunchAppFromElevatedProcess
 
   ; Find the installation directory when launching using GetFunctionAddress
   ; from an elevated installer since $INSTDIR will not be set in this installer
-  ReadRegStr $0 HKLM "Software\Classes\zotero\DefaultIcon" ""
+  ${StrFilter} "${FileMainEXE}" "+" "" "" $R9
+  ReadRegStr $0 HKLM "Software\Clients\StartMenuInternet\$R9\DefaultIcon" ""
   ${GetPathFromString} "$0" $0
   ${GetParent} "$0" $1
   ; Set our current working directory to the application's install directory
@@ -851,9 +847,9 @@ Function preSummary
 
   ; Check if it is possible to write to HKLM
   ClearErrors
-  WriteRegStr HKLM "Software\Zotero" "${BrandShortName}InstallerTest" "Write Test"
+  WriteRegStr HKLM "Software\${AppVendor}" "${BrandShortName}InstallerTest" "Write Test"
   ${Unless} ${Errors}
-    DeleteRegValue HKLM "Software\Zotero" "${BrandShortName}InstallerTest"
+    DeleteRegValue HKLM "Software\${AppVendor}" "${BrandShortName}InstallerTest"
     ; Check if Firefox is the http handler for this user.
     SetShellVarContext current ; Set SHCTX to the current user
     ${IsHandlerForInstallDir} "http" $R9
