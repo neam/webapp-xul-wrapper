@@ -275,7 +275,7 @@ if [ $BUILD_WIN32 == 1 ]; then
 			INSTALLER_PATH="$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}_setup.exe"
 			
 			# Add icon to xulrunner-stub
-			"$CALLDIR/win/ReplaceVistaIcon/ReplaceVistaIcon.exe" "`cygpath -w \"$APPDIR/$MODULE.exe\"`" \
+			"$CALLDIR/win/ReplaceVistaIcon/ReplaceVistaIcon.exe" "`cygpath -w \"$APPDIR/${APPNAME}.exe\"`" \
 				"`cygpath -w \"$CALLDIR/assets/icons/default/main-window.ico\"`"
 			
 			echo 'Creating Windows installer'
@@ -290,7 +290,7 @@ if [ $BUILD_WIN32 == 1 ]; then
 			# Sign $MODULE.exe, updater, and uninstaller
 			if [ $SIGN == 1 ]; then
 				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "$APPNAME" \
-					/du "$SIGNATURE_URL" "`cygpath -w \"$APPDIR/$MODULE.exe\"`"
+					/du "$SIGNATURE_URL" "`cygpath -w \"$APPDIR/${APPNAME}.exe\"`"
 				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "$APPNAME Updater" \
 					/du "$SIGNATURE_URL" "`cygpath -w \"$APPDIR/xulrunner/updater.exe\"`"
 				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "$APPNAME Uninstaller" \
