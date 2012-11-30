@@ -177,8 +177,10 @@ if [ $BUILD_MAC == 1 ]; then
 	CONTENTSDIR="$APPDIR/Contents"
 	
 	# Copy plugins
-	mkdir -p "$CONTENTSDIR/Resources/plugins/"
-	cp -r "$CALLDIR/plugins/mac/"* "$CONTENTSDIR/Resources/plugins/"
+	if [ $BUNDLE_PLUGINS == 1 ]; then
+		mkdir -p "$CONTENTSDIR/Resources/plugins/"
+		cp -r "$CALLDIR/plugins/mac/"* "$CONTENTSDIR/Resources/plugins/"
+	fi
 
 	# Merge xulrunner and relevant assets
 	mkdir "$CONTENTSDIR/MacOS"
@@ -241,8 +243,10 @@ if [ $BUILD_WIN32 == 1 ]; then
 	mkdir "$APPDIR"
 	
 	# Copy plugins
-	mkdir -p "$APPDIR/plugins"
-	cp -r "$CALLDIR/plugins/win32/"* "$APPDIR/plugins/"
+	if [ $BUNDLE_PLUGINS == 1 ]; then
+		mkdir -p "$APPDIR/plugins"
+		cp -r "$CALLDIR/plugins/win32/"* "$APPDIR/plugins/"
+	fi
 
 	# Merge xulrunner and relevant assets
 	cp -R "$BUILDDIR/$MODULE/"* "$BUILDDIR/application.ini" "$APPDIR"
@@ -345,9 +349,11 @@ if [ $BUILD_LINUX == 1 ]; then
 		mkdir "$APPDIR"
 
 		# Copy plugins
-		mkdir -p "$APPDIR/plugins"
-		cp -r "$CALLDIR/plugins/linux-$arch/"* "$APPDIR/plugins/"
-		
+		if [ $BUNDLE_PLUGINS == 1 ]; then
+			mkdir -p "$APPDIR/plugins"
+			cp -r "$CALLDIR/plugins/linux-$arch/"* "$APPDIR/plugins/"
+		fi
+
 		# Merge xulrunner and relevant assets
 		cp -R "$BUILDDIR/$MODULE/"* "$BUILDDIR/application.ini" "$APPDIR"
 		cp -r "$RUNTIME_PATH" "$APPDIR/xulrunner"
