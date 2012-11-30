@@ -182,10 +182,11 @@ if [ $BUILD_MAC == 1 ]; then
 
 	# Merge xulrunner and relevant assets
 	mkdir "$CONTENTSDIR/MacOS"
+	mkdir "$CONTENTSDIR/Resources"
 	cp -a "$MAC_RUNTIME_PATH/Versions/Current"/* "$CONTENTSDIR/MacOS"
 	mv "$CONTENTSDIR/MacOS/xulrunner" "$CONTENTSDIR/MacOS/$MODULE-bin"
 	cp "$CALLDIR/mac/$MODULE" "$CONTENTSDIR/MacOS/$MODULE"
-	cp "$BUILDDIR/application.ini" "$CONTENTSDIR/Resources"
+	cp "$BUILDDIR/application.ini" "$CONTENTSDIR/Resources/"
 	cp "$CALLDIR/mac/Contents/Info.plist" "$CONTENTSDIR"
 	cp "$CALLDIR/assets/icons/default/default.icns" "$CONTENTSDIR/Resources/$MODULE.icns"
 	
