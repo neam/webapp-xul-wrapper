@@ -104,7 +104,6 @@ VIAddVersionKey "OriginalFilename" "setup.exe"
 ; Must be inserted before other macros that use logging
 !insertmacro _LoggingCommon
 
-!insertmacro AddHandlerValues
 !insertmacro CanWriteToInstallDir
 !insertmacro ChangeMUIHeaderImage
 !insertmacro CheckDiskSpace
@@ -121,7 +120,6 @@ VIAddVersionKey "OriginalFilename" "setup.exe"
 !insertmacro LogStartMenuShortcut
 !insertmacro ManualCloseAppPrompt
 !insertmacro PinnedToStartMenuLnkCount
-!insertmacro RegCleanAppHandler
 !insertmacro RegCleanMain
 !insertmacro RegCleanUninstall
 !insertmacro SetAppLSPCategories
@@ -130,7 +128,6 @@ VIAddVersionKey "OriginalFilename" "setup.exe"
 !insertmacro UnloadUAC
 !insertmacro WriteRegStr2
 !insertmacro WriteRegDWORD2
-!insertmacro CheckIfRegistryKeyExists
 
 !include shared.nsh
 
