@@ -25,6 +25,7 @@
     ***** END LICENSE BLOCK *****
 -->
 
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xul-overlay href="chrome://app/content/init.xul"?>
 <?xul-overlay href="chrome://app-platform/content/ui/menuOverlay.xul"?>
 
