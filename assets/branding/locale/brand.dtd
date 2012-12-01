@@ -1,5 +1,5 @@
 ﻿<!ENTITY  brandShortName        "Gapminder World">
 <!ENTITY  brandFullName         "Gapminder World">
-<!ENTITY  vendorUrl             "http://www.example.com">
+<!ENTITY  vendorUrl             "http://www.gapminder.org/desktop/">
 <!ENTITY  vendorShortName       "Gapminder Foundation">
 <!ENTITY  logoCopyright         "©2012 Gapminder Foundation. All rights reserved.">
