@@ -44,6 +44,9 @@
 				width="1040" height="700"
 				persist="screenX screenY width height sizemode"> 
 	<script type="application/javascript" src="main.js"/>
+	<script type="application/javascript" src="chrome://global/content/globalOverlay.js"/>
+	<script type="application/javascript" src="chrome://global/content/contentAreaUtils.js"/>
+	<script type="application/javascript" src="chrome://global/content/inlineSpellCheckUI.js"/>
 	
 	<commandset id="mainCommandSet">
 		<!--FILE-->
