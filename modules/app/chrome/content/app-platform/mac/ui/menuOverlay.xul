@@ -69,8 +69,10 @@
 				modifiers="accel"/>
 	</keyset>
 
-	<!-- nsMenuBarX hides these and uses them to build the Application menu. -->
     <menupopup id="menu_FilePopup">
+		<menuitem id="menu_close" label="&closeCmd.label;" key="key_close"
+				accesskey="&closeCmd.accesskey;" command="cmd_close"/>
+		<!-- nsMenuBarX hides these and uses them to build the Application menu. -->
         <!--<menuitem id="menu_preferences"
 				label="&preferencesCmdMac.label;"
 				key="key_preferencesCmdMac"

@@ -96,6 +96,15 @@
 			<toolbaritem id="menubar-items" align="center">
 				<menubar id="main-menubar"
 				style="border:0px;padding:0px;margin:0px;-moz-appearance:none">
+					<menu id="fileMenu" label="&fileMenu.label;" accesskey="&fileMenu.accesskey;">
+						<menupopup id="menu_FilePopup">
+						<!--
+							<menuitem id="menu_close" label="&closeCmd.label;" key="key_close"
+									accesskey="&closeCmd.accesskey;" command="cmd_close"/>
+						-->
+						</menupopup>
+					</menu>
+
 					<menu id="helpMenu"
 							label="&helpMenu.label;"
 							accesskey="&helpMenu.accesskey;">

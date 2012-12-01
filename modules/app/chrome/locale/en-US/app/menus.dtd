@@ -1,4 +1,4 @@
-﻿<!--ZOTERO MENU (OS X ONLY)-->
+﻿<!--APP MENU (OS X ONLY)-->
 <!ENTITY preferencesCmdMac.label        "Preferences…">
 <!ENTITY preferencesCmdMac.commandkey   ",">
 <!ENTITY servicesMenuMac.label          "Services">
@@ -7,10 +7,12 @@
 <!ENTITY hideOtherAppsCmdMac.label      "Hide Others">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
 <!ENTITY showAllAppsCmdMac.label        "Show All">
-<!ENTITY quitApplicationCmdMac.label "Quit Zotero">
+<!ENTITY quitApplicationCmdMac.label "Quit &brandShortName;">
 <!ENTITY quitApplicationCmdMac.key "Q">
 
 <!--FILE MENU-->
+<!ENTITY fileMenu.label "File">
+<!ENTITY fileMenu.accesskey "F">
 <!ENTITY closeCmd.label "Close">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.accesskey "C">
