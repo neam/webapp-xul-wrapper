@@ -98,7 +98,7 @@
 	}
 
 	function debug(msg) {
-		dump(msg);
+		dump(msg + "\n");
 	}
 
 }).call(App);
