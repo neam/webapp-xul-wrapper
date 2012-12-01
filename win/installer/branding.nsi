@@ -40,7 +40,7 @@
 
 # BrandFullNameInternal is used for some registry and file system values
 # instead of BrandFullName and typically should not be modified.
-!define BrandFullNameInternal "Webapp XUL Wrapper"
-!define CompanyName           "Webapp XUL Wrapper Contributors"
-!define URLInfoAbout          "http://example.com/app/about"
-!define URLUpdateInfo         "http://example.com/app/updates"
+!define BrandFullNameInternal "Gapminder World"
+!define CompanyName           "Gapminder Foundation"
+!define URLInfoAbout          "http://www.gapminder.org/desktop/"
+!define URLUpdateInfo         "http://www.gapminder.org/desktop/"

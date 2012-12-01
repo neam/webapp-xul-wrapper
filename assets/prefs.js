@@ -85,11 +85,11 @@ pref("app.update.url", "https://www.example.com/app/update/%VERSION%/%BUILD_ID%/
 
 // URL user can browse to manually if for some reason all update installation
 // attempts fail.
-pref("app.update.url.manual", "http://www.example.com/app/");
+pref("app.update.url.manual", "http://www.gapminder.org/desktop/");
 
 // A default value for the "More information about this update" link
 // supplied in the "An update is available" page of the update wizard.
-pref("app.update.url.details", "http://www.example.com/app/changelog");
+pref("app.update.url.details", "http://www.gapminder.org/desktop/");
 
 // User-settable override to app.update.url for testing purposes.
 //pref("app.update.url.override", "");

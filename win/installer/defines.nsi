@@ -5,18 +5,18 @@
 # with the taskbar. ExplicitAppUserModelID registration when the app launches is
 # handled in widget/src/windows/WinTaskbar.cpp.
 
-!define AppVendor             "Webapp XUL Wrapper Contributors"
-!define AppName               "Webapp XUL Wrapper"
+!define AppVendor             "Gapminder Foundation"
+!define AppName               "Gapminder World"
 !define AppVersion            "{{VERSION}}"
 !define AppUserModelID        "${AppVendor}.${AppName}.${AppVersion}"
 !define GREVersion            2.0
 !define AB_CD                 "en-US"
 
 !define FileMainEXE           "${AppName}.exe"
-!define WindowClass           "WebappXULWrapperMessageWindow"
-!define AppRegName            "WebappXULWrapper"
+!define WindowClass           "GapminderWorldMessageWindow"
+!define AppRegName            "GapminderWorld"
 
-!define BrandShortName        "Webapp XUL Wrapper"
+!define BrandShortName        "Gapminder World"
 !define PreReleaseSuffix      ""
 !define BrandFullName         "${BrandFullNameInternal}${PreReleaseSuffix}"
 

@@ -48,5 +48,5 @@ STAGEDIR="$CALLDIR/staging"
 DISTDIR="$CALLDIR/dist"
 
 # App name
-APPNAME="Webapp XUL Wrapper"
-PACKAGENAME="webapp-xul-wrapper"
+APPNAME="Gapminder World"
+PACKAGENAME="Gapminder-World-Offline"
