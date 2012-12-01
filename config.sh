@@ -49,4 +49,4 @@ DISTDIR="$CALLDIR/dist"
 
 # App name
 APPNAME="Gapminder World"
-PACKAGENAME="Gapminder-World-Offline"
+PACKAGENAME="gapminder-world-offline"
