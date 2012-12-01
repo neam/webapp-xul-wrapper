@@ -10,3 +10,6 @@
 [submodule "modules/zotero-libreoffice-integration"]
 	path = modules/zotero-libreoffice-integration
 	url = git://github.com/zotero/zotero-libreoffice-integration.git
+[submodule "modules/gapminder-world"]
+	path = modules/gapminder-world
+	url = git@codeplane.com:neam/gapminder-world.git
