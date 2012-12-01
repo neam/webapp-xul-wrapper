@@ -123,16 +123,6 @@ if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 	mv ../$MODULE.jar .
 	cd ..
 		
-	# Build styles.zip with default styles
-	if [ -d styles ]; then
-		echo "Building styles.zip"
-		
-		cd styles
-		zip -q ../styles.zip *.csl
-		cd ..
-		rm -rf styles
-	fi
-	
 	# Adjust chrome.manifest
 	echo "" >> "$BUILDDIR/$MODULE/chrome.manifest"
 	cat "$CALLDIR/assets/chrome.manifest" >> "$BUILDDIR/$MODULE/chrome.manifest"
