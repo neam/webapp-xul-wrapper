@@ -94,7 +94,7 @@ mkdir "$DISTDIR"
 
 if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 
-	echo "Building from bundled submodule '$MODULE'"
+	echo "Building standalone version of '$WEBAPPMODULE'"
 
 	# Copy app directory
 	cp -RH "$CALLDIR/modules/$MODULE" "$BUILDDIR/$MODULE"

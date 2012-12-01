@@ -47,7 +47,7 @@ Check out [the official docs](https://developer.mozilla.org/en/docs/Debugging_a_
      "$CALLDIR/app-bin" "$CALLDIR/../Resources/application.ini" -P -jsconsole
 
 ### Debugging your webapp
-This is best done in some other browser, since the browser-view included in the app doesn't offer much development aid.
+This is best done in some other browser, since the browser-view included in the app doesn't offer much development aid. While the standalone app is running, you can access the bundled webapp on (http://localhost:57187)[http://localhost:57187].
 
 ### Debugging the build process
 Add `set -x` near the top of config.sh before building to see everything that the build process does.
