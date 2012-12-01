@@ -1,4 +1,4 @@
 ;!@Install@!UTF-8!
-Title="Webapp XUL Wrapper"
+Title="Gapminder World"
 RunProgram="setup.exe"
 ;!@InstallEnd@!
