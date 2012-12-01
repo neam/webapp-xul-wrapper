@@ -223,12 +223,12 @@ if [ $BUILD_MAC == 1 ]; then
 		if [ $MAC_NATIVE == 1 ]; then
 			echo 'Creating Mac installer'
 			"$CALLDIR/mac/pkg-dmg" --source "$STAGEDIR/$APPNAME.app" \
-				--target "$DISTDIR/$APPNAME_WO_SPACES-$VERSION.dmg" \
+				--target "$DISTDIR/$PACKAGENAME-$VERSION.dmg" \
 				--sourcefile --volname "$APPNAME" --copy "$CALLDIR/mac/DSStore:/.DS_Store" \
 				--symlink /Applications:"/Drag Here to Install" > /dev/null
 		else
 			echo 'Not building on Mac; creating Mac distribution as a zip file'
-			rm -f "$DISTDIR/${APPNAME_WO_SPACES}_mac.zip"
+			rm -f "$DISTDIR/${PACKAGENAME}_mac.zip"
 			cd "$STAGEDIR" && zip -rqX "$DISTDIR/$APPNAME-$VERSION_mac.zip" $APPNAME.app
 		fi
 	fi
@@ -236,10 +236,10 @@ fi
 
 # Win32
 if [ $BUILD_WIN32 == 1 ]; then
-	echo "Building ${APPNAME_WO_SPACES}-win32"
+	echo "Building ${PACKAGENAME}-win32"
 	
 	# Set up directory
-	APPDIR="$STAGEDIR/${APPNAME_WO_SPACES}-win32"
+	APPDIR="$STAGEDIR/${PACKAGENAME}-win32"
 	mkdir "$APPDIR"
 	
 	# Copy plugins
@@ -272,7 +272,7 @@ if [ $BUILD_WIN32 == 1 ]; then
 	
 	if [ $PACKAGE == 1 ]; then
 		if [ $WIN_NATIVE == 1 ]; then
-			INSTALLER_PATH="$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}-setup.exe"
+			INSTALLER_PATH="$DISTDIR/${PACKAGENAME}-${VERSION}-setup.exe"
 			
 			# Add icon to xulrunner-stub
 			"$CALLDIR/win/ReplaceVistaIcon/ReplaceVistaIcon.exe" "`cygpath -w \"$APPDIR/${APPNAME}.exe\"`" \
@@ -323,7 +323,7 @@ if [ $BUILD_WIN32 == 1 ]; then
 			cat "$BUILDDIR/7zSD.sfx" "$CALLDIR/win/installer/app.tag" \
 				"$BUILDDIR/app_win32.7z" > "$INSTALLER_PATH"
 			
-			# Sign ${APPNAME_WO_SPACES}_setup.exe
+			# Sign ${PACKAGENAME}_setup.exe
 			if [ $SIGN == 1 ]; then
 				"`cygpath -u \"$SIGNTOOL\"`" sign /a /d "$APPNAME Setup" \
 					/du "$SIGNATURE_URL" "`cygpath -w \"$INSTALLER_PATH\"`"
@@ -333,7 +333,7 @@ if [ $BUILD_WIN32 == 1 ]; then
 		else
 			echo 'Not building on Windows; only building zip file'
 		fi
-		cd "$STAGEDIR" && zip -rqX "$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}-win32.zip" "${APPNAME_WO_SPACES}-win32"
+		cd "$STAGEDIR" && zip -rqX "$DISTDIR/${PACKAGENAME}-${VERSION}-win32.zip" "${PACKAGENAME}-win32"
 	fi
 fi
 
@@ -343,8 +343,8 @@ if [ $BUILD_LINUX == 1 ]; then
 		RUNTIME_PATH=`eval echo '$LINUX_'$arch'_RUNTIME_PATH'`
 		
 		# Set up directory
-		echo "Building ${APPNAME_WO_SPACES}-linux-$arch"
-		APPDIR="$STAGEDIR/${APPNAME_WO_SPACES}-linux-$arch"
+		echo "Building ${PACKAGENAME}-linux-$arch"
+		APPDIR="$STAGEDIR/${PACKAGENAME}-linux-$arch"
 		rm -rf "$APPDIR"
 		mkdir "$APPDIR"
 
@@ -376,9 +376,9 @@ if [ $BUILD_LINUX == 1 ]; then
 		
 		if [ $PACKAGE == 1 ]; then
 			# Create tar
-			rm -f "$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}-linux-$arch.tar.bz2"
+			rm -f "$DISTDIR/${PACKAGENAME}-${VERSION}-linux-$arch.tar.bz2"
 			cd "$STAGEDIR"
-			tar -cjf "$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}-linux-$arch.tar.bz2" "${APPNAME_WO_SPACES}-linux-$arch"
+			tar -cjf "$DISTDIR/${PACKAGENAME}-${VERSION}-linux-$arch.tar.bz2" "${PACKAGENAME}-linux-$arch"
 		fi
 	done
 fi

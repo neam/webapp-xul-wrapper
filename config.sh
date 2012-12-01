@@ -49,4 +49,4 @@ DISTDIR="$CALLDIR/dist"
 
 # App name
 APPNAME="Webapp XUL Wrapper"
-APPNAME_WO_SPACES="Webapp-XUL-Wrapper"
+PACKAGENAME="webapp-xul-wrapper"
