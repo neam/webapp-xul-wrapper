@@ -224,7 +224,7 @@ if [ $BUILD_MAC == 1 ]; then
 			echo 'Creating Mac installer'
 			"$CALLDIR/mac/pkg-dmg" --source "$STAGEDIR/$APPNAME.app" \
 				--target "$DISTDIR/$APPNAME_WO_SPACES-$VERSION.dmg" \
-				--sourcefile --volname "$APPNAME_WO_SPACES" --copy "$CALLDIR/mac/DSStore:/.DS_Store" \
+				--sourcefile --volname "$APPNAME" --copy "$CALLDIR/mac/DSStore:/.DS_Store" \
 				--symlink /Applications:"/Drag Here to Install" > /dev/null
 		else
 			echo 'Not building on Mac; creating Mac distribution as a zip file'
@@ -236,10 +236,10 @@ fi
 
 # Win32
 if [ $BUILD_WIN32 == 1 ]; then
-	echo "Building ${APPNAME_WO_SPACES}_win32"
+	echo "Building ${APPNAME_WO_SPACES}-win32"
 	
 	# Set up directory
-	APPDIR="$STAGEDIR/${APPNAME_WO_SPACES}_win32"
+	APPDIR="$STAGEDIR/${APPNAME_WO_SPACES}-win32"
 	mkdir "$APPDIR"
 	
 	# Copy plugins
@@ -272,7 +272,7 @@ if [ $BUILD_WIN32 == 1 ]; then
 	
 	if [ $PACKAGE == 1 ]; then
 		if [ $WIN_NATIVE == 1 ]; then
-			INSTALLER_PATH="$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}_setup.exe"
+			INSTALLER_PATH="$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}-setup.exe"
 			
 			# Add icon to xulrunner-stub
 			"$CALLDIR/win/ReplaceVistaIcon/ReplaceVistaIcon.exe" "`cygpath -w \"$APPDIR/${APPNAME}.exe\"`" \
@@ -333,7 +333,7 @@ if [ $BUILD_WIN32 == 1 ]; then
 		else
 			echo 'Not building on Windows; only building zip file'
 		fi
-		cd "$STAGEDIR" && zip -rqX "$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}_win32.zip" ${APPNAME_WO_SPACES}_win32
+		cd "$STAGEDIR" && zip -rqX "$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}-win32.zip" "${APPNAME_WO_SPACES}-win32"
 	fi
 fi
 
@@ -343,8 +343,8 @@ if [ $BUILD_LINUX == 1 ]; then
 		RUNTIME_PATH=`eval echo '$LINUX_'$arch'_RUNTIME_PATH'`
 		
 		# Set up directory
-		echo "Building ${APPNAME_WO_SPACES}_linux-"$arch
-		APPDIR="$STAGEDIR/${APPNAME_WO_SPACES}_linux-$arch"
+		echo "Building ${APPNAME_WO_SPACES}-linux-$arch"
+		APPDIR="$STAGEDIR/${APPNAME_WO_SPACES}-linux-$arch"
 		rm -rf "$APPDIR"
 		mkdir "$APPDIR"
 
@@ -376,9 +376,9 @@ if [ $BUILD_LINUX == 1 ]; then
 		
 		if [ $PACKAGE == 1 ]; then
 			# Create tar
-			rm -f "$DISTDIR/$APPNAME-${VERSION}_linux-$arch.tar.bz2"
+			rm -f "$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}-linux-$arch.tar.bz2"
 			cd "$STAGEDIR"
-			tar -cjf "$DISTDIR/$APPNAME-${VERSION}_linux-$arch.tar.bz2" "${APPNAME_WO_SPACES}_linux-$arch"
+			tar -cjf "$DISTDIR/${APPNAME_WO_SPACES}-${VERSION}-linux-$arch.tar.bz2" "${APPNAME_WO_SPACES}-linux-$arch"
 		fi
 	done
 fi
