@@ -49,7 +49,7 @@
 				key="&minimizeWindow.key;"
 				modifiers="accel"/>
 		<key id="key_openHelpMac"
-				oncommand="ZoteroStandalone.openHelp();"
+				oncommand="App.openHelp();"
 				key="&helpMac.commandkey;"
 				modifiers="accel"/>
 		
@@ -74,7 +74,7 @@
         <!--<menuitem id="menu_preferences"
 				label="&preferencesCmdMac.label;"
 				key="key_preferencesCmdMac"
-				oncommand="ZoteroPane.openPreferences();"/>-->
+				oncommand="App.openPreferences();"/>-->
         <menuitem id="menu_mac_services"
 				label="&servicesMenuMac.label;"/>
         <menuitem id="menu_mac_hide_app"
