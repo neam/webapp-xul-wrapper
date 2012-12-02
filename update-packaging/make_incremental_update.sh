@@ -123,7 +123,7 @@ popd
 
 notice ""
 notice "Adding file patch and add instructions to file 'update.manifest'"
-> $updatemanifestv1
+> "$updatemanifestv1"
 
 num_oldfiles=${#oldfiles[*]}
 remove_array=
@@ -139,7 +139,7 @@ for ((i=0; $i<$num_oldfiles; i=$i+1)); do
 
   # removed-files is excluded by make_incremental_updates.py so it is excluded
   # here for consistency.
-  if [ `basename $f` = "removed-files" ]; then
+  if [ "`basename $f`" = "removed-files" ]; then
     continue 1
   fi
 
@@ -148,10 +148,10 @@ for ((i=0; $i<$num_oldfiles; i=$i+1)); do
 
     if check_for_forced_update "$requested_forced_updates" "$f"; then
       # The full workdir may not exist yet, so create it if necessary.
-      mkdir -p `dirname "$workdir/$f"`
+      mkdir -p "`dirname "$workdir/$f"`"
       $BZIP2 -cz9 "$newdir/$f" > "$workdir/$f"
       copy_perm "$newdir/$f" "$workdir/$f"
-      make_add_instruction "$f" 1 >> $updatemanifestv1
+      make_add_instruction "$f" 1 >> "$updatemanifestv1"
       archivefiles="$archivefiles \"$f\""
       continue 1
     fi
@@ -170,12 +170,12 @@ for ((i=0; $i<$num_oldfiles; i=$i+1)); do
       fullsize=$(get_file_size "$workdir/$f")
 
       if [ $patchsize -lt $fullsize ]; then
-        make_patch_instruction "$f" >> $updatemanifestv1
+        make_patch_instruction "$f" >> "$updatemanifestv1"
         mv -f "$patchfile" "$workdir/$f.patch"
         rm -f "$workdir/$f"
         archivefiles="$archivefiles \"$f.patch\""
       else
-        make_add_instruction "$f" >> $updatemanifestv1
+        make_add_instruction "$f" >> "$updatemanifestv1"
         rm -f "$patchfile"
         archivefiles="$archivefiles \"$f\""
       fi
@@ -198,7 +198,7 @@ for ((i=0; $i<$num_newfiles; i=$i+1)); do
 
   # removed-files is excluded by make_incremental_updates.py so it is excluded
   # here for consistency.
-  if [ `basename $f` = "removed-files" ]; then
+  if [ "`basename $f`" = "removed-files" ]; then
     continue 1
   fi
 
@@ -224,7 +224,7 @@ notice "Adding file remove instructions to file 'update.manifest'"
 for ((i=0; $i<$num_removes; i=$i+1)); do
   f="${remove_array[$i]}"
   notice "     remove: $f"
-  echo "remove \"$f\"" >> $updatemanifestv1
+  echo "remove \"$f\"" >> "$updatemanifestv1"
 done
 
 # Add the type of update to the beginning of and cat the contents of the version
@@ -233,11 +233,11 @@ notice ""
 notice "Adding type instruction to file 'updatev2.manifest'"
 > $updatemanifestv2
 notice "       type: partial"
-echo "type \"partial\"" >> $updatemanifestv2
+echo "type \"partial\"" >> "$updatemanifestv2"
 
 notice ""
 notice "Concatenating file 'update.manifest' to file 'updatev2.manifest'"
-cat $updatemanifestv1 >> $updatemanifestv2
+cat "$updatemanifestv1" >> "$updatemanifestv2"
 
 # Append remove instructions for any dead files.
 notice ""
@@ -253,7 +253,7 @@ for ((i=0; $i<$num_olddirs; i=$i+1)); do
   # If this dir doesn't exist in the new directory remove it.
   if [ ! -d "$newdir/$f" ]; then
     notice "      rmdir: $f/"
-    echo "rmdir \"$f/\"" >> $updatemanifestv2
+    echo "rmdir \"$f/\"" >> "$updatemanifestv2"
   fi
 done
 
