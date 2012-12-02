@@ -37,6 +37,8 @@
 	
 	// Public properties
 	this.initialized = false;
+	this.version = null;
+	this.build = null;
 	
 	/**
 	 * Initialize the wrapper
@@ -51,6 +53,7 @@
 		platformVersion = appInfo.platformVersion;
 
 		this.version = appInfo.version;
+		this.build = appInfo.appBuildID;
 		
 		if(!_initModules()) return false;
 		this.initComplete();
