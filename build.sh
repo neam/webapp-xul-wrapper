@@ -166,12 +166,6 @@ if [ $BUILD_MAC == 1 ]; then
 	cp -r "$CALLDIR/mac/Contents" "$APPDIR"
 	CONTENTSDIR="$APPDIR/Contents"
 	
-	# Copy plugins
-	if [ $BUNDLE_PLUGINS == 1 ]; then
-		mkdir -p "$CONTENTSDIR/Resources/plugins/"
-		cp -r "$CALLDIR/plugins/mac/"* "$CONTENTSDIR/Resources/plugins/"
-	fi
-
 	# Merge xulrunner and relevant assets
 	mkdir "$CONTENTSDIR/MacOS"
 	mkdir "$CONTENTSDIR/Resources"
@@ -182,6 +176,12 @@ if [ $BUILD_MAC == 1 ]; then
 	cp "$CALLDIR/mac/Contents/Info.plist" "$CONTENTSDIR"
 	cp "$CALLDIR/assets/icons/default/default.icns" "$CONTENTSDIR/Resources/$MODULE.icns"
 	
+	# Copy plugins
+	if [ $BUNDLE_PLUGINS == 1 ]; then
+		mkdir -p "$CONTENTSDIR/Resources/plugins/"
+		cp -r "$CALLDIR/plugins/mac/"* "$CONTENTSDIR/Resources/plugins/"
+	fi
+
 	# Modify Info.plist
 	cp "$CALLDIR/mac/Contents/Info.plist" "$CONTENTSDIR/Info.plist"
 	perl -pi -e "s/{{VERSION}}/$VERSION/" "$CONTENTSDIR/Info.plist"
