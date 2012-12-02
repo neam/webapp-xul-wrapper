@@ -118,16 +118,16 @@ append_remove_instructions() {
           fi
           if [ $(echo "$f" | grep -c '\/$') = 1 ]; then
             notice "      rmdir: $fixedprefix$f"
-            echo "rmdir \"$fixedprefix$f\"" >> $filev2
+            echo "rmdir \"$fixedprefix$f\"" >> "$filev2"
           elif [ $(echo "$f" | grep -c '\/\*$') = 1 ]; then
             # Remove the *
             f=$(echo "$f" | sed -e 's:\*$::')
             notice "    rmrfdir: $fixedprefix$f"
-            echo "rmrfdir \"$fixedprefix$f\"" >> $filev2
+            echo "rmrfdir \"$fixedprefix$f\"" >> "$filev2"
           else
             notice "     remove: $fixedprefix$f"
-            echo "remove \"$fixedprefix$f\"" >> $filev1
-            echo "remove \"$fixedprefix$f\"" >> $filev2
+            echo "remove \"$fixedprefix$f\"" >> "$filev1"
+            echo "remove \"$fixedprefix$f\"" >> "$filev2"
           fi
         fi
       fi

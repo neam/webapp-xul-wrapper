@@ -69,7 +69,7 @@ popd
 
 notice ""
 notice "Adding file add instructions to file 'update.manifest'"
-> $updatemanifestv1
+> "$updatemanifestv1"
 
 num_files=${#files[*]}
 
@@ -78,11 +78,11 @@ for ((i=0; $i<$num_files; i=$i+1)); do
   
   # removed-files is excluded by make_incremental_updates.py so it is excluded
   # here for consistency.
-  if [ `basename $f` = "removed-files" ]; then
+  if [ "`basename $f`" = "removed-files" ]; then
     continue 1
   fi
 
-  make_add_instruction "$f" >> $updatemanifestv1
+  make_add_instruction "$f" >> "$updatemanifestv1"
 
   dir=$(dirname "$f")
   mkdir -p "$workdir/$dir"
@@ -98,11 +98,11 @@ done
 notice ""
 notice "Adding type instruction to file 'updatev2.manifest'"
 notice "       type: complete"
-echo "type \"complete\"" >> $updatemanifestv2
+echo "type \"complete\"" >> "$updatemanifestv2"
 
 notice ""
 notice "Concatenating file 'update.manifest' to file 'updatev2.manifest'"
-cat $updatemanifestv1 >> $updatemanifestv2
+cat "$updatemanifestv1" >> "$updatemanifestv2"
 
 # Append remove instructions for any dead files.
 notice ""
