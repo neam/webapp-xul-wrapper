@@ -23,9 +23,12 @@
 		<hbox>
 			<label class="app-text-link url" href="&vendorUrl;" value="&vendorUrl;" onclick="gotoUrl('&vendorUrl;')"/>
 		</hbox>
-		<label id="version" value="&app.versionLabel; "/>
+		<label id="version" value="&app.about.versionLabel; %version% (&app.about.buildLabel; %build%)"/>
 		<script>
-			document.getElementById('version').value += App.version;
+			var l = document.getElementById('version').value;
+			l = l.replace('%version%', App.version);
+			l = l.replace('%build%', App.build);
+			document.getElementById('version').value = l;
 		</script>
 		<label id="copyright" value="&logoCopyright;"/>
 	</vbox>

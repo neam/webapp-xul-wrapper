@@ -1,2 +1,3 @@
-<!ENTITY app.versionLabel		"version">
+<!ENTITY app.about.versionLabel		"version">
+<!ENTITY app.about.buildLabel		"build">
 <!ENTITY app.about.closeLabel	"Close">
