@@ -83,7 +83,7 @@ if [ ! -z $1 ]; then
 	usage
 fi
 
-BUILDID=`date +%Y%m%d`
+BUILDID=`date +%Y%m%d%H%M`
 
 shopt -s extglob
 mkdir "$BUILDDIR"

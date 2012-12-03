@@ -4,7 +4,7 @@ BUILD_WIN32=1
 BUILD_LINUX=1
 
 # Whether or not to bundle plugins (in the plugins/*/ folders) with the distribution packages
-BUNDLE_PLUGINS=0
+BUNDLE_PLUGINS=1
 
 # Version of Gecko to build with
 GECKO_VERSION="17.0"
