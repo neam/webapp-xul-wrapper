@@ -170,8 +170,12 @@ if [ $BUILD_MAC == 1 ]; then
 	mkdir "$CONTENTSDIR/MacOS"
 	mkdir "$CONTENTSDIR/Resources"
 	cp -a "$MAC_RUNTIME_PATH/Versions/Current"/* "$CONTENTSDIR/MacOS"
+	# Mozilla no longer builds xulrunner-stub on OS X
 	mv "$CONTENTSDIR/MacOS/xulrunner" "$CONTENTSDIR/MacOS/$MODULE-bin"
 	cp "$CALLDIR/mac/$MODULE" "$CONTENTSDIR/MacOS/$MODULE"
+	# Hack to get the updater to work
+	mv "$CONTENTSDIR/MacOS/updater.app/Contents/MacOS/updater" "$CONTENTSDIR/MacOS/updater.app/Contents/MacOS/updater-bin"
+	cp "$CALLDIR/mac/updater" "$CONTENTSDIR/MacOS/updater.app/Contents/MacOS/updater"
 	cp "$BUILDDIR/application.ini" "$CONTENTSDIR/Resources/"
 	cp "$CALLDIR/mac/Contents/Info.plist" "$CONTENTSDIR"
 	cp "$CALLDIR/assets/icons/default/default.icns" "$CONTENTSDIR/Resources/$MODULE.icns"
