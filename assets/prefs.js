@@ -81,7 +81,7 @@ pref("app.update.showInstalledUI", true);
 
 // Update service URL:
 // You do not need to use all the %VAR% parameters. Use what you need, %PRODUCT%,%VERSION%,%BUILD_ID%,%CHANNEL% for example
-pref("app.update.url", "https://www.example.com/app/update/%VERSION%/%BUILD_ID%/%BUILD_TARGET%/%LOCALE%/%CHANNEL%/%OS_VERSION%/update.xml");
+pref("app.update.url", "http://api.gapminder.org/gapminder-world/update/1/%PRODUCT%/%VERSION%/%BUILD_ID%/%BUILD_TARGET%/%LOCALE%/%CHANNEL%/%OS_VERSION%/%DISTRIBUTION%/%DISTRIBUTION_VERSION%/%PLATFORM_VERSION%/update.xml");
 
 // URL user can browse to manually if for some reason all update installation
 // attempts fail.
@@ -125,7 +125,7 @@ pref("app.update.showInstalledUI", false);
 pref("app.update.incompatible.mode", 0);
 
 // update channel for this build
-pref("app.update.channel", "default");
+pref("app.update.channel", "release");
 
 // suppress external-load warning for standard browser schemes
 pref("network.protocol-handler.warn-external.http", false);
