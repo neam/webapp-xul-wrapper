@@ -109,8 +109,8 @@ if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 	cp -R "$CALLDIR/assets/branding" "$BUILDDIR/$MODULE/chrome/branding"
 	
 	# Delete files that shouldn't be distributed
-	find "$BUILDDIR/$MODULE/chrome" -depth -type d -name .git -exec rm -rf {} \;
-	find "$BUILDDIR/$MODULE/chrome" -name .DS_Store -exec rm -f {} \;
+	find "$BUILDDIR/$MODULE" -depth -type d -name .git -exec rm -rf {} \;
+	find "$BUILDDIR/$MODULE" -name .DS_Store -exec rm -f {} \;
 	
 	# Zip chrome into JAR
 	cd "$BUILDDIR/$MODULE/chrome"
