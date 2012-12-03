@@ -9,6 +9,8 @@ STAGEDIR=$CALLDIR/staging
 # Import configuration
 . "$CALLDIR/../config.sh"
 
+if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
+
 mkdir -p "$DISTDIR"
 
 for version in "$FROM" "$TO"; do
@@ -35,7 +37,7 @@ for version in "$FROM" "$TO"; do
 	
 	for archive in "$MAC_ARCHIVE" "$WIN_ARCHIVE" "$LINUX_X86_ARCHIVE" "$LINUX_X86_64_ARCHIVE"; do
 		rm -f $archive
-		wget -nv "$PACKAGESURL/$version/$archive"
+		wget -nv "$PACKAGESURL/$UPDATE_CHANNEL/$version/$archive"
 
 		# Only continue if we retrieved the package
 		if [ ! -f $archive ]; then
@@ -67,13 +69,16 @@ done
 for build in "mac" "win32" "linux-i686" "linux-x86_64"; do
 	if [[ $build == "mac" ]]; then
 		dir="$APPNAME.app"
+		inipath="Contents/Resources"
 	else
 		dir="${PACKAGENAME}-$build"
+		inipath="."
 	fi
 	cp "$CALLDIR/removed-files_$build" "$STAGEDIR/$TO/$dir/removed-files"
 	touch "$STAGEDIR/$TO/$dir/precomplete"
-	"$CALLDIR/make_incremental_update.sh" "$DISTDIR/$PACKAGENAME-${TO}-${FROM}-$build.mar" "$STAGEDIR/$FROM/$dir" "$STAGEDIR/$TO/$dir"
-	"$CALLDIR/make_full_update.sh" "$DISTDIR/$PACKAGENAME-${TO}-full-$build.mar" "$STAGEDIR/$TO/$dir"
+	"$CALLDIR/make_incremental_update.sh" "$DISTDIR/$PACKAGENAME-${TO}-partial-$build.mar" "$STAGEDIR/$FROM/$dir" "$STAGEDIR/$TO/$dir"
+	"$CALLDIR/make_full_update.sh" "$DISTDIR/$PACKAGENAME-${TO}-complete-$build.mar" "$STAGEDIR/$TO/$dir"
+	python generatesnippet.py -v --application-ini-file="$STAGEDIR/$TO/$dir/$inipath/application.ini" --mar-path="$DISTDIR" --platform="$build" -p "$PACKAGENAME" --download-base-URL="$PACKAGESURL" --channel="$UPDATE_CHANNEL"
 done
 
 cd "$DISTDIR"
