@@ -50,3 +50,6 @@ DISTDIR="$CALLDIR/dist"
 # App name
 APPNAME="Gapminder World"
 PACKAGENAME="gapminder-world-offline"
+
+# Packages url (used for update packaging)
+PACKAGESURL="http://www.example.com/app/packages"
