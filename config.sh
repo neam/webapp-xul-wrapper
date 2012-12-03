@@ -50,3 +50,6 @@ DISTDIR="$CALLDIR/dist"
 # App name
 APPNAME="Webapp XUL Wrapper"
 PACKAGENAME="webapp-xul-wrapper"
+
+# Packages url (used for update packaging)
+PACKAGESURL="http://www.example.com/app/packages"
