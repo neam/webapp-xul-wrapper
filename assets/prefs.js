@@ -125,7 +125,7 @@ pref("app.update.showInstalledUI", false);
 pref("app.update.incompatible.mode", 0);
 
 // update channel for this build
-pref("app.update.channel", "default");
+pref("app.update.channel", "replaced-by-build-script");
 
 // suppress external-load warning for standard browser schemes
 pref("network.protocol-handler.warn-external.http", false);
