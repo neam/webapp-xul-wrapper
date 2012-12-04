@@ -53,3 +53,5 @@ PACKAGENAME="gapminder-world-offline"
 
 # Packages url (used for update packaging)
 PACKAGESURL="http://www.example.com/app/packages"
+PACKAGESURL="http://api.gapminder.org/gapminder-world/packages"
+#PACKAGESURL="http://localhost/Projects/Gapminder/gapminder-api-yiiapp/packages"
