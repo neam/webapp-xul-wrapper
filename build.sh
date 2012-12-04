@@ -222,8 +222,8 @@ if [ $BUILD_MAC == 1 ]; then
 				--symlink /Applications:"/Drag Here to Install" > /dev/null
 		else
 			echo 'Not building on Mac; creating Mac distribution as a zip file'
-			rm -f "$DISTDIR/${PACKAGENAME}_mac.zip"
-			cd "$STAGEDIR" && zip -rqX "$DISTDIR/$APPNAME-$VERSION_mac.zip" $APPNAME.app
+			rm -f "$DISTDIR/${PACKAGENAME}-${VERSION}-mac.zip"
+			cd "$STAGEDIR" && zip -rqX "$DISTDIR/${PACKAGENAME}-${VERSION}-mac.zip" $APPNAME.app
 		fi
 	fi
 fi
