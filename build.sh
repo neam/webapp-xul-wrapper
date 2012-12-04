@@ -101,6 +101,9 @@ if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 		VERSION="$DEFAULT_VERSION_PREFIX$REV"
 	fi
 	
+	# Append version directory to DISTDIR
+	DISTDIR="$DISTDIR/$VERSION"
+
 	# Make sure DISTDIR exists
 	if [ ! -d "$DISTDIR" ]; then mkdir -p "$DISTDIR"; fi
 
