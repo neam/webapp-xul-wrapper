@@ -23,12 +23,12 @@ DEVELOPER_ID=replacemereplacemereplacemereplacemerepl
 CODESIGN_REQUIREMENTS="=designated => anchor apple generic  and identifier \"org.foo.bar\" and ((cert leaf[field.0.0.000.123456.000.1.2.3] exists) or ( certificate 1[field.1.0.000.123456.000.1.2.3] exists and certificate leaf[field.2.0.000.123456.000.1.2.3] exists  and certificate leaf[subject.OU] = \"FOO123BAR1\" ))"
 
 # Paths for Windows installer build
-MAKENSISU='C:\Program Files (x86)\NSIS\Unicode\makensis.exe'
-UPX='C:\Program Files (x86)\upx\upx.exe'
+MAKENSISU='C:\Program Files\NSIS\Unicode\makensis.exe'
+UPX='C:\Program Files\upx308w\upx.exe'
 EXE7ZIP='C:\Program Files\7-Zip\7z.exe'
 
 # Paths for Windows installer build only necessary for signed binaries
-SIGNTOOL='C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\signtool.exe'
+SIGNTOOL='C:\Program Files\Microsoft Platform SDK\Bin\signtool.exe'
 SIGNATURE_URL='https://www.example.com/'
 
 # If version is not specified on the command line, version is this prefix followed by the revision
