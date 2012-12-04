@@ -94,7 +94,7 @@ done
 
 # Add the type of update to the beginning of and cat the contents of the version
 # 1 update manifest to the version 2 update manifest.
-> $updatemanifestv2
+> "$updatemanifestv2"
 notice ""
 notice "Adding type instruction to file 'updatev2.manifest'"
 notice "       type: complete"
