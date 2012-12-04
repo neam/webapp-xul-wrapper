@@ -87,10 +87,6 @@ BUILDID=`date +%Y%m%d%H%M`
 
 shopt -s extglob
 mkdir "$BUILDDIR"
-rm -rf "$STAGEDIR"
-mkdir "$STAGEDIR"
-rm -rf "$DISTDIR"
-mkdir "$DISTDIR"
 
 if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 
@@ -105,6 +101,9 @@ if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 		VERSION="$DEFAULT_VERSION_PREFIX$REV"
 	fi
 	
+	# Make sure DISTDIR exists
+	if [ ! -d "$DISTDIR" ]; then mkdir -p "$DISTDIR"; fi
+
 	# Copy branding
 	cp -R "$CALLDIR/assets/branding" "$BUILDDIR/$MODULE/chrome/branding"
 	
@@ -215,9 +214,10 @@ if [ $BUILD_MAC == 1 ]; then
 	# Build disk image
 	if [ $PACKAGE == 1 ]; then
 		if [ $MAC_NATIVE == 1 ]; then
+			rm -f "$DISTDIR/${PACKAGENAME}-${VERSION}.dmg"
 			echo 'Creating Mac installer'
 			"$CALLDIR/mac/pkg-dmg" --source "$STAGEDIR/$APPNAME.app" \
-				--target "$DISTDIR/$PACKAGENAME-$VERSION.dmg" \
+				--target "$DISTDIR/${PACKAGENAME}-${VERSION}.dmg" \
 				--sourcefile --volname "$APPNAME" --copy "$CALLDIR/mac/DSStore:/.DS_Store" \
 				--symlink /Applications:"/Drag Here to Install" > /dev/null
 		else
@@ -234,6 +234,7 @@ if [ $BUILD_WIN32 == 1 ]; then
 	
 	# Set up directory
 	APPDIR="$STAGEDIR/${PACKAGENAME}-win32"
+	rm -rf "$APPDIR"
 	mkdir "$APPDIR"
 	
 	# Copy plugins
