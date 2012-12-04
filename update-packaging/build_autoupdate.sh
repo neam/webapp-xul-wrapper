@@ -1,16 +1,15 @@
 #!/bin/bash
 FROM=0.0.1
 TO=0.0.2
-USE_LOCAL_TO=0
+USE_LOCAL_TO=1 # Use if you have the TO version of the app for all platforms in ../staging
 CALLDIR=`pwd`
-DISTDIR=$CALLDIR/../dist
-STAGEDIR=$CALLDIR/staging
 
 # Import configuration
 . "$CALLDIR/../config.sh"
 
 if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 
+rm -rf "$DISTDIR"
 mkdir -p "$DISTDIR"
 
 for version in "$FROM" "$TO"; do
@@ -78,7 +77,7 @@ for build in "mac" "win32" "linux-i686" "linux-x86_64"; do
 	touch "$STAGEDIR/$TO/$dir/precomplete"
 	"$CALLDIR/make_incremental_update.sh" "$DISTDIR/$PACKAGENAME-${TO}-partial-$build.mar" "$STAGEDIR/$FROM/$dir" "$STAGEDIR/$TO/$dir"
 	"$CALLDIR/make_full_update.sh" "$DISTDIR/$PACKAGENAME-${TO}-complete-$build.mar" "$STAGEDIR/$TO/$dir"
-	python generatesnippet.py -v --application-ini-file="$STAGEDIR/$TO/$dir/$inipath/application.ini" --mar-path="$DISTDIR" --platform="$build" -p "$PACKAGENAME" --download-base-URL="$PACKAGESURL" --channel="$UPDATE_CHANNEL"
+	python "$CALLDIR/generatesnippet.py" -v --application-ini-file="$STAGEDIR/$TO/$dir/$inipath/application.ini" --mar-path="$DISTDIR" --platform="$build" -p "$PACKAGENAME" --download-base-URL="$PACKAGESURL" --channel="$UPDATE_CHANNEL"
 done
 
 cd "$DISTDIR"
