@@ -36,7 +36,7 @@ for version in "$FROM" "$TO"; do
 	
 	for archive in "$MAC_ARCHIVE" "$WIN_ARCHIVE" "$LINUX_X86_ARCHIVE" "$LINUX_X86_64_ARCHIVE"; do
 		rm -f $archive
-		wget -nv "$PACKAGESURL/$UPDATE_CHANNEL/$version/$archive"
+		wget "$PACKAGESURL/$UPDATE_CHANNEL/$version/$archive"
 
 		# Only continue if we retrieved the package
 		if [ ! -f $archive ]; then
