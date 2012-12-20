@@ -231,7 +231,7 @@ done
 # 1 update manifest to the version 2 update manifest.
 notice ""
 notice "Adding type instruction to file 'updatev2.manifest'"
-> $updatemanifestv2
+> "$updatemanifestv2"
 notice "       type: partial"
 echo "type \"partial\"" >> "$updatemanifestv2"
 
