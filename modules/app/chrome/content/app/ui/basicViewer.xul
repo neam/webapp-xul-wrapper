@@ -26,18 +26,16 @@
 
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
-<?xml-stylesheet href="chrome://zotero/skin/standalone.css" type="text/css"?>
+<?xul-overlay href="chrome://app/content/init.xul"?>
 <?xul-overlay href="chrome://global/content/editMenuOverlay.xul"?>
-<?xul-overlay href="chrome://zotero-platform/content/standalone/menuOverlay.xul"?>
+<?xul-overlay href="chrome://app-platform/content/ui/menuOverlay.xul"?>
 
 <!DOCTYPE window [
 	<!ENTITY % globalDTD SYSTEM "chrome://global/locale/global.dtd"> %globalDTD;
 	<!ENTITY % charsetDTD SYSTEM "chrome://global/locale/charsetOverlay.dtd" > %charsetDTD;
 	<!ENTITY % textcontextDTD SYSTEM "chrome://global/locale/textcontext.dtd" > %textcontextDTD;
-	<!ENTITY % standaloneDTD SYSTEM "chrome://zotero/locale/standalone.dtd" > %standaloneDTD;
+	<!ENTITY % standaloneDTD SYSTEM "chrome://app/locale/menus.dtd" > %standaloneDTD;
 	<!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd" > %brandDTD;
-	<!ENTITY % zoteroDTD SYSTEM "chrome://zotero/locale/zotero.dtd"> %zoteroDTD;
 ]>
 
 <window id="main-window"
@@ -51,7 +49,6 @@
 	<script type="application/javascript" src="chrome://global/content/contentAreaUtils.js"/>
 	<script type="application/javascript" src="chrome://global/content/printUtils.js"/>
 	<script type="application/javascript" src="chrome://global/content/inlineSpellCheckUI.js"/>
-	<script type="application/javascript" src="chrome://zotero/content/include.js"/>
 	<script type="application/javascript" src="basicViewer.js"/>
 	
 	<commandset id="mainCommandSet">
@@ -64,8 +61,8 @@
 		
 		<!--EDIT-->
 		<commandset id="editMenuCommands"/>
-		<command id="cmd_find"
-			oncommand="document.getElementById('zotero-tb-search').focus();"/>
+		<!--<command id="cmd_find"
+			oncommand="document.getElementById('app-tb-search').focus();"/>-->
 	</commandset>
 	
 	<keyset id="mainKeyset">
@@ -141,8 +138,8 @@
 							<menuitem id="menu_delete"/>
 							<menuseparator/>
 							<menuitem id="menu_selectAll"/>
-							<menuseparator/>
-							<menuitem id="menu_find"/>
+							<!--<menuseparator/>
+							<menuitem id="menu_find"/>-->
 							<menuseparator hidden="true" id="textfieldDirection-separator"/>
 							<menuitem id="textfieldDirection-swap"
 									command="cmd_switchTextDirection"
