@@ -1,6 +1,6 @@
 #!/bin/bash
-FROM=0.0.1
-TO=0.0.2
+FROM=0.0.2
+TO=0.0.3
 USE_LOCAL_TO=1 # Use if you have the TO version of the app for all platforms in ../staging
 CALLDIR=`pwd`
 
