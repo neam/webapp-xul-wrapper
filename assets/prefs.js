@@ -23,8 +23,9 @@ pref("intl.locale.matchOS", true);
 pref("browser.chromeURL", "chrome://app/content/ui/basicViewer.xul");
 // We need these to get the save dialog working with contentAreaUtils.js
 pref("browser.download.useDownloadDir", false);
-pref("browser.download.manager.showWhenStarting", false);
+pref("browser.download.manager.showWhenStarting", true);
 pref("browser.download.folderList", 1);
+pref("browser.download.manager.retention", 1); // 1 indicates that completed and canceled downloads should be removed on quit;
 
 // Don't show add-on selection dialog
 pref("extensions.shownSelectionUI", true);
