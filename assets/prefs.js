@@ -139,3 +139,6 @@ pref("app.update.channel", "replaced-by-build-script");
 pref("network.protocol-handler.warn-external.http", false);
 pref("network.protocol-handler.warn-external.https", false);
 pref("network.protocol-handler.warn-external.ftp", false);
+
+// disable disk cache which would risk delivering stale files after app updates
+pref("browser.cache.disk.enable", false);
