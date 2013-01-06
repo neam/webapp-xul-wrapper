@@ -88,6 +88,9 @@ BUILDID=`date +%Y%m%d%H%M`
 shopt -s extglob
 mkdir "$BUILDDIR"
 
+# Make sure STAGEDIR exists
+if [ ! -d "$STAGEDIR" ]; then mkdir -p "$STAGEDIR"; fi
+
 if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 
 	echo "Building standalone version of '$WEBAPPMODULE'"
