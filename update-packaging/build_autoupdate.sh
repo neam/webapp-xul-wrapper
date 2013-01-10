@@ -92,5 +92,7 @@ for build in "mac" "win32" "linux-i686" "linux-x86_64"; do
 done
 
 cd "$DISTDIR"
-shasum -a 512 * > sha512sums
-ls -la > files
+
+# Not necessary any longer when using generatesnippet.py
+#shasum -a 512 * > sha512sums
+#ls -la > files
