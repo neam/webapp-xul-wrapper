@@ -1,7 +1,18 @@
 #!/bin/bash
-FROM=0.0.1
-TO=0.0.2
-USE_LOCAL_TO=1 # Use if you have the TO version of the app for all platforms in ../staging
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 FROM TO"
+	exit 1
+fi
+
+if [ -z "$2" ]; then
+	echo "Usage: $0 FROM TO"
+	exit 1
+fi
+
+FROM=$1
+TO=$2
+USE_LOCAL_TO=1 # Use if you have the TO version of the app for all platforms in ../staging, which will be the case just after you've built the packages for that version
 CALLDIR=`pwd`
 
 # Import configuration
