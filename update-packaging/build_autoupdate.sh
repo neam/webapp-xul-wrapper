@@ -20,9 +20,6 @@ CALLDIR=`pwd`
 
 if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 
-rm -rf "$DISTDIR"
-mkdir -p "$DISTDIR"
-
 for version in "$FROM" "$TO"; do
 	versiondir=$STAGEDIR/$version
 	
