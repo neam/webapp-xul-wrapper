@@ -1,3 +1,7 @@
+0.0.5 (2013-01-06)
+
+ - Updated indicator data to latest available
+
 0.0.4 (2012-12-21)
 
  - Disabled browser disk cache (app updates immediately effective)
@@ -7,7 +11,7 @@
 
  - Fixed: Missing small color map
  - Fixed: Terms-Of-Use click kills window
- - Fixes: Nothing shows in Windows 7
+ - Fixed: Nothing shows in Windows 7
  - Using same skin as Gapminder Desktop (instead of blue)
  - Not bundling Flash plugin in Windows version due to compatibility issues (Fixes: Nothing shows in Windows 7)
  - Improved Flash installation instructions and flow for Windows computers without Flash
