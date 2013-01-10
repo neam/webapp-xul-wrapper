@@ -37,6 +37,10 @@ def main():
                       action="store",
                       dest="channel",
                       help="This option is used to indicate which update channel is used.")
+    parser.add_option("--from-version",
+                      action="store",
+                      dest="fromVersion",
+                      help="This is used for a partial update package to indicate from what version it will update from.")
     parser.add_option("--download-base-URL",
                       action="store",
                       dest="downloadBaseURL",
@@ -65,7 +69,8 @@ def main():
                                   options.downloadBaseURL,
                                   options.product,
                                   options.platform,
-                                  options.channel)
+                                  options.channel,
+                                  options.fromVersion)
         f = open(os.path.join(options.marPath, marFileName+'.update.snippet'), 'wb')
         f.write(snippet)
         f.close()
@@ -74,16 +79,20 @@ def main():
             # Show in our logs what the contents of the snippet are
             print snippet
 
-def getMarFileName(product,appVersion,marType,platform):
+def getMarFileName(product,appVersion,fromVersion,marType,platform):
+    if marType == 'partial':
+        version = '%s-to-%s' % (fromVersion,appVersion)
+    else:
+        version = appVersion
     marFileName = '%s-%s-%s-%s.mar' % (
         product,
-        appVersion,
+        version,
         marType,
         platform)
     return marFileName
 
 def generateSnippet(abstDistDir, applicationIniFile, marType,
-                    downloadBaseURL, product, platform, channel):
+                    downloadBaseURL, product, platform, channel, fromVersion):
     # Let's extract information from application.ini
     c = ConfigParser()
     try:
@@ -96,6 +105,7 @@ def generateSnippet(abstDistDir, applicationIniFile, marType,
     marFileName = getMarFileName(
         product,
         appVersion,
+        fromVersion,
         marType,
         platform)
     # Let's determine the hash and the size of the MAR file

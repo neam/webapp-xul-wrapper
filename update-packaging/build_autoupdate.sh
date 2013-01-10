@@ -86,9 +86,9 @@ for build in "mac" "win32" "linux-i686" "linux-x86_64"; do
 	fi
 	cp "$CALLDIR/removed-files_$build" "$STAGEDIR/$TO/$dir/removed-files"
 	touch "$STAGEDIR/$TO/$dir/precomplete"
-	"$CALLDIR/make_incremental_update.sh" "$DISTDIR/$PACKAGENAME-${TO}-partial-$build.mar" "$STAGEDIR/$FROM/$dir" "$STAGEDIR/$TO/$dir"
+	"$CALLDIR/make_incremental_update.sh" "$DISTDIR/$PACKAGENAME-${FROM}-to-${TO}-partial-$build.mar" "$STAGEDIR/$FROM/$dir" "$STAGEDIR/$TO/$dir"
 	"$CALLDIR/make_full_update.sh" "$DISTDIR/$PACKAGENAME-${TO}-complete-$build.mar" "$STAGEDIR/$TO/$dir"
-	python "$CALLDIR/generatesnippet.py" -v --application-ini-file="$STAGEDIR/$TO/$dir/$inipath/application.ini" --mar-path="$DISTDIR" --platform="$build" -p "$PACKAGENAME" --download-base-URL="$PACKAGESURL" --channel="$UPDATE_CHANNEL"
+	python "$CALLDIR/generatesnippet.py" -v --application-ini-file="$STAGEDIR/$TO/$dir/$inipath/application.ini" --mar-path="$DISTDIR" --platform="$build" -p "$PACKAGENAME" --download-base-URL="$PACKAGESURL" --channel="$UPDATE_CHANNEL" --from-version="$FROM"
 done
 
 cd "$DISTDIR"
