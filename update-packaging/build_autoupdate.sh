@@ -1,7 +1,18 @@
 #!/bin/bash
-FROM=0.0.1
-TO=0.0.2
-USE_LOCAL_TO=1 # Use if you have the TO version of the app for all platforms in ../staging
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 FROM TO"
+	exit 1
+fi
+
+if [ -z "$2" ]; then
+	echo "Usage: $0 FROM TO"
+	exit 1
+fi
+
+FROM=$1
+TO=$2
+USE_LOCAL_TO=1 # Use if you have the TO version of the app for all platforms in ../staging, which will be the case just after you've built the packages for that version
 CALLDIR=`pwd`
 
 # Import configuration
@@ -9,8 +20,8 @@ CALLDIR=`pwd`
 
 if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 
-rm -rf "$DISTDIR"
-mkdir -p "$DISTDIR"
+# Make sure DISTDIR exists
+if [ ! -d "$DISTDIR" ]; then mkdir -p "$DISTDIR"; fi
 
 for version in "$FROM" "$TO"; do
 	versiondir=$STAGEDIR/$version
@@ -75,11 +86,9 @@ for build in "mac" "win32" "linux-i686" "linux-x86_64"; do
 	fi
 	cp "$CALLDIR/removed-files_$build" "$STAGEDIR/$TO/$dir/removed-files"
 	touch "$STAGEDIR/$TO/$dir/precomplete"
-	"$CALLDIR/make_incremental_update.sh" "$DISTDIR/$PACKAGENAME-${TO}-partial-$build.mar" "$STAGEDIR/$FROM/$dir" "$STAGEDIR/$TO/$dir"
-	"$CALLDIR/make_full_update.sh" "$DISTDIR/$PACKAGENAME-${TO}-complete-$build.mar" "$STAGEDIR/$TO/$dir"
-	python "$CALLDIR/generatesnippet.py" -v --application-ini-file="$STAGEDIR/$TO/$dir/$inipath/application.ini" --mar-path="$DISTDIR" --platform="$build" -p "$PACKAGENAME" --download-base-URL="$PACKAGESURL" --channel="$UPDATE_CHANNEL"
+	"$CALLDIR/make_incremental_update.sh" "$DISTDIR/$PACKAGENAME-${FROM}-to-${TO}-partial-$build.mar" "$STAGEDIR/$FROM/$dir" "$STAGEDIR/$TO/$dir"
+	if [ ! -f "$DISTDIR/$PACKAGENAME-${TO}-complete-$build.mar" ]; then
+		"$CALLDIR/make_full_update.sh" "$DISTDIR/$PACKAGENAME-${TO}-complete-$build.mar" "$STAGEDIR/$TO/$dir"
+	fi
+	python "$CALLDIR/generatesnippet.py" -v --application-ini-file="$STAGEDIR/$TO/$dir/$inipath/application.ini" --mar-path="$DISTDIR" --platform="$build" -p "$PACKAGENAME" --download-base-URL="$PACKAGESURL" --channel="$UPDATE_CHANNEL" --from-version="$FROM"
 done
-
-cd "$DISTDIR"
-shasum -a 512 * > sha512sums
-ls -la > files

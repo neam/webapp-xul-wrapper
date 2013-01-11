@@ -19,6 +19,14 @@ pref("javascript.options.methodjit.chrome", true);
 // Use OS locale
 pref("intl.locale.matchOS", true);
 
+// Use basicViewer for opening new DOM windows from content (for TinyMCE)
+pref("browser.chromeURL", "chrome://app/content/ui/basicViewer.xul");
+// We need these to get the save dialog working with contentAreaUtils.js
+pref("browser.download.useDownloadDir", false);
+pref("browser.download.manager.showWhenStarting", true);
+pref("browser.download.folderList", 1);
+pref("browser.download.manager.retention", 1); // 1 indicates that completed and canceled downloads should be removed on quit;
+
 // Don't show add-on selection dialog
 pref("extensions.shownSelectionUI", true);
 pref("extensions.autoDisableScope", 11);
@@ -131,3 +139,6 @@ pref("app.update.channel", "replaced-by-build-script");
 pref("network.protocol-handler.warn-external.http", false);
 pref("network.protocol-handler.warn-external.https", false);
 pref("network.protocol-handler.warn-external.ftp", false);
+
+// disable disk cache which would risk delivering stale files after app updates
+pref("browser.cache.disk.enable", false);
