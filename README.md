@@ -68,14 +68,14 @@ In Windows (Cygwin) in the project directory, run:
 
      ./build-windows-installer-package.sh 0.0.5
 
-This will produce the relevant download packages for Mac, Linux and Windows in the "dist" directory. These should be offered to end users on a product download page or similar.
+This will produce the relevant download packages for Mac, Linux and Windows in the "dist/0.0.5" directory. These should be offered to end users on a product download page or similar.
 
-Now on to the application update packages. These can be generated fully from within any single development environment (OSX, Linux or Windows). Read [the official docs](https://developer.mozilla.org/en-US/docs/XULRunner/Application_Update) for general information. Enhanced versions of the utility scripts are included in this project, but you need to make sure mar and mbsdiff are available in your PATH. Then, run:
+Now on to the application update packages. These can be generated fully from within any single development environment (OSX, Linux or Windows). Read [the official docs](https://developer.mozilla.org/en-US/docs/XULRunner/Application_Update) for general information. Enhanced versions of the utility scripts are included in this project, but you need to make sure [mar and mbsdiff](https://wiki.mozilla.org/UpdateGeneration#What_the_Makefiles_do.2C_or_How_to_make_your_own_updates) are available in your PATH. You also need to keep previous versions' download packages available under PACKAGEURL set in config.sh. Then, run:
 
      cd update-packaging/
 
      # Reset from earlier update packagings
-     rm -rf "$DISTDIR" # Clears dist directory
+     rm -rf dist/ # Clears dist directory
      if [ -h "staging/0.0.4" ]; then rm staging/0.0.4; fi # Clears previous symbolic link in staging directory
 
      # Build update packages
@@ -92,7 +92,7 @@ Changelog
 1.1.0 (2012-01-11)
 
  - Easier generation of update packages for partial application updates
- - Make sure staging directory is created (Fixes #1)
+ - Make sure that all staging and dist directories are created (Fixes #1)
  - Disabled browser disk cache (app updates immediately effective)
  - Links with target="_blank" opens in a new window
 

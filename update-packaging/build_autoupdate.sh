@@ -20,6 +20,9 @@ CALLDIR=`pwd`
 
 if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 
+# Make sure DISTDIR exists
+if [ ! -d "$DISTDIR" ]; then mkdir -p "$DISTDIR"; fi
+
 for version in "$FROM" "$TO"; do
 	versiondir=$STAGEDIR/$version
 	
@@ -89,9 +92,3 @@ for build in "mac" "win32" "linux-i686" "linux-x86_64"; do
 	fi
 	python "$CALLDIR/generatesnippet.py" -v --application-ini-file="$STAGEDIR/$TO/$dir/$inipath/application.ini" --mar-path="$DISTDIR" --platform="$build" -p "$PACKAGENAME" --download-base-URL="$PACKAGESURL" --channel="$UPDATE_CHANNEL" --from-version="$FROM"
 done
-
-cd "$DISTDIR"
-
-# Not necessary any longer when using generatesnippet.py
-#shasum -a 512 * > sha512sums
-#ls -la > files
