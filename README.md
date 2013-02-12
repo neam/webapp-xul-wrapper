@@ -89,7 +89,7 @@ This will produce the relevant application update packages for Mac, Linux and Wi
 Changelog
 -----------------------------
 
-1.1.0 (2012-01-11)
+1.1.0 (2013-01-11)
 
  - Easier generation of update packages for partial application updates
  - Make sure that all staging and dist directories are created (Fixes #1)
