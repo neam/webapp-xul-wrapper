@@ -41,7 +41,7 @@ BUILDDIR="/tmp/app-build-`uuidgen | head -c 8`"
 # Module to build
 MODULE="app"
 # Module containing webapp to wrap
-WEBAPPMODULE="sample-webapp"
+WEBAPPMODULE="kitchensink/app/"
 # Directory for unpacked binaries
 STAGEDIR="$CALLDIR/staging"
 # Directory for packed binaries
