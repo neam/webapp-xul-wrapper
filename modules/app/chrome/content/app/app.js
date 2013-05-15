@@ -34,6 +34,7 @@
 	this.getWebAppDirectory = getWebAppDirectory;
 	this.getRootPrefBranch = getRootPrefBranch;
 	this.debug = debug;
+	this.safeDebug = safeDebug;
 	
 	// Public properties
 	this.initialized = false;
@@ -104,6 +105,20 @@
 		dump(msg + "\n");
 	}
 
+	function safeDebug(obj){
+		for (var i in obj){
+			try {
+				App.debug(i + ': ' + obj[i]);
+			}
+			catch (e){
+				try {
+					App.debug(i + ': ERROR');
+				}
+				catch (e){}
+			}
+		}
+	}
+	
 }).call(App);
 
 
