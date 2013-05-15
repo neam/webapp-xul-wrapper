@@ -41,6 +41,7 @@
 	this.initialized = false;
 	this.version = null;
 	this.build = null;
+	this.appName = null;
 	
 	// Private properties
 	var _localizedStringBundle;
@@ -70,6 +71,11 @@
 
 		_localizedStringBundle = stringBundleService.createBundle(
 			"chrome://app/locale/app.properties", appLocale);
+
+		// Also load the brand as appName
+		var brandBundle = stringBundleService.createBundle(
+			"chrome://branding/locale/brand.properties", appLocale);
+		this.appName = brandBundle.GetStringFromName("brandShortName");
 
 		if(!_initModules()) return false;
 		this.initComplete();
