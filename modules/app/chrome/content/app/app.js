@@ -35,12 +35,16 @@
 	this.getRootPrefBranch = getRootPrefBranch;
 	this.debug = debug;
 	this.safeDebug = safeDebug;
+	this.getString = getString;
 	
 	// Public properties
 	this.initialized = false;
 	this.version = null;
 	this.build = null;
 	
+	// Private properties
+	var _localizedStringBundle;
+
 	/**
 	 * Initialize the wrapper
 	 */
@@ -56,6 +60,17 @@
 		this.version = appInfo.version;
 		this.build = appInfo.appBuildID;
 		
+		// Load in the localization stringbundle for use by getString(name)
+		var stringBundleService =
+			Components.classes["@mozilla.org/intl/stringbundle;1"]
+			.getService(Components.interfaces.nsIStringBundleService);
+		var localeService = Components.classes['@mozilla.org/intl/nslocaleservice;1'].
+							getService(Components.interfaces.nsILocaleService);
+		var appLocale = localeService.getApplicationLocale();
+
+		_localizedStringBundle = stringBundleService.createBundle(
+			"chrome://app/locale/app.properties", appLocale);
+
 		if(!_initModules()) return false;
 		this.initComplete();
 		
@@ -119,6 +134,24 @@
 		}
 	}
 	
+	function getString(name, params){
+		try {
+			if (params != undefined){
+				if (typeof params != 'object'){
+					params = [params];
+				}
+				var l10n = _localizedStringBundle.formatStringFromName(name, params, params.length);
+			}
+			else {
+				var l10n = _localizedStringBundle.GetStringFromName(name);
+			}
+		}
+		catch (e){
+			throw ('Localized string not available for ' + name);
+		}
+		return l10n;
+	}
+
 }).call(App);
 
 
