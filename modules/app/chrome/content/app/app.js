@@ -42,6 +42,7 @@
 	this.version = null;
 	this.build = null;
 	this.appName = null;
+	this.MainUI = null;
 	
 	// Private properties
 	var _localizedStringBundle;
@@ -97,6 +98,9 @@
 	function _initModules() {
 		if(getRootPrefBranch().getBoolPref("app.httpServer.enabled")) {
 			App.HttpServer.init();
+		}
+		if(getRootPrefBranch().getBoolPref("app.bridge.enabled")) {
+			App.Bridge.init(App);
 		}
 		return true;
 	}

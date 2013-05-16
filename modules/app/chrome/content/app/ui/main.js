@@ -52,12 +52,9 @@ const MainUI = new function() {
 			return;
 		}
 
-		// Load bridge.js - Javascript included from the webapp module
-		// todo - check if dir exists - and only import if so
-		Components.utils.import("chrome://app/content/bridge/main.js");
+		// Make MainUI available globally
+		App.MainUI = MainUI;
 
-		// Run the bridge code (note: window.content = the main browser[type=content-primary] window object)
-		Bridge.init(window, App, MainUI);
 	}
 
 	/**
