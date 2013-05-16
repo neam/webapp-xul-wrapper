@@ -37,6 +37,13 @@ const MainUI = new function() {
 	}
 
 	/**
+	 * Opens the extensions manager
+	 */
+	this.openExtensionsManager = function() {
+		window.openDialog('chrome://mozapps/content/extensions/extensions.xul', 'extensions', 'chrome');
+	}
+
+	/**
 	 * Checks for updates
 	 */
 	this.checkForUpdates = function() {
