@@ -42,5 +42,32 @@ const MainUI = new function() {
 	this.checkForUpdates = function() {
 		window.open('chrome://mozapps/content/update/updates.xul', 'updateChecker', 'chrome,centerscreen');
 	}
+
+	/**
+	 * Run when standalone window first opens
+	 */
+	this.onLoad = function() {
+		if(!App || !App.initialized) {
+			window.close();
+			return;
+		}
+
+		// Load bridge.js - Javascript included from the webapp module
+		// todo - check if dir exists - and only import if so
+		Components.utils.import("chrome://app/content/bridge/main.js");
+
+		// Run the bridge code (note: window.content = the main browser[type=content-primary] window object)
+		Bridge.init(window, App, MainUI);
+	}
+
+	/**
+	 * Called before standalone window is closed
+	 */
+	this.onUnload = function() {
+		//MainPane.destroy();
+	}
 	
 }
+
+window.addEventListener("load", function(e) { MainUI.onLoad(e); }, false);
+window.addEventListener("unload", function(e) { MainUI.onUnload(e); }, false);
