@@ -36,6 +36,7 @@
 	this.debug = debug;
 	this.safeDebug = safeDebug;
 	this.getString = getString;
+	this.nativeNotification = nativeNotification;
 	
 	// Public properties
 	this.initialized = false;
@@ -160,6 +161,24 @@
 			throw ('Localized string not available for ' + name);
 		}
 		return l10n;
+	}
+
+	function nativeNotification(title, text, image) {
+
+		try {
+			// TODO: Add support for callback depending on user interaction with alert
+			Components.classes['@mozilla.org/alerts-service;1'].
+					getService(Components.interfaces.nsIAlertsService).
+					showAlertNotification(image, title, text, false, '', null);
+		} catch (e) {
+			// For platforms that don't implement nsIAlertsService
+			var win = Components.classes['@mozilla.org/embedcomp/window-watcher;1'].
+					getService(Components.interfaces.nsIWindowWatcher).
+					openWindow(null, 'chrome://global/content/alerts/alert.xul',
+					'_blank', 'chrome,titlebar=no,popup=yes', null);
+			win.arguments = [image, title, text, false, ''];
+		}
+
 	}
 
 }).call(App);
