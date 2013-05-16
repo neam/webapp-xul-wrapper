@@ -46,14 +46,16 @@ The Kitchen Sink acts as a reference implementation for how to send messages bet
 Tips
 -----------------------------
 ### Debugging the XUL application
-Check out [the official docs](https://developer.mozilla.org/en/docs/Debugging_a_XULRunner_Application), stackoverflow etc. On OSX, parameters to xulrunner (such as -jsconsole -P etc) can be appended to the Contents/MacOS/app script, as such:
+Check out [the official docs](https://developer.mozilla.org/en/docs/Debugging_a_XULRunner_Application), stackoverflow etc. On OSX, parameters to xulrunner (such as -jsconsole -P -purgecache etc) can be appended to the Contents/MacOS/app script, as such:
 
-     Contents/MacOS/app -P -jsconsole
+     Contents/MacOS/app -P -jsconsole -purgecache
 
 On Windows, create a shortcut to app.exe and add the parameters in that shortcut's properties.
 
+Zotero has some [relevant documentation](http://www.zotero.org/support/dev/client_coding/javascript_api) on how to set up a debug environment.
+
 ### Debugging your webapp
-This is best done in some other browser, since the browser-view included in the app doesn't offer much development aid. While the standalone app is running, you can access the bundled webapp on (http://localhost:57187)[http://localhost:57187].
+This is best done in some other browser, since the browser-view included in the app doesn't offer much development aid. While the standalone app is running, you can access the bundled webapp on [http://localhost:57187](http://localhost:57187).
 
 ### Debugging the build scripts
 Add `set -x` near the top of config.sh before building to see everything that the build process does.

@@ -38,7 +38,7 @@ VERSION_NUMERIC="0.0.0"
 
 # Directory for building
 BUILDDIR="/tmp/app-build-`uuidgen | head -c 8`"
-# Module to build
+# Module to use as XUL app for build
 MODULE="app"
 # Module containing webapp to wrap
 WEBAPPMODULE="kitchensink/app/"
