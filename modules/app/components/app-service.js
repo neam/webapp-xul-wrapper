@@ -29,7 +29,8 @@ const Ci = Components.interfaces;
 
 /** Modules to load **/
 const modulesAll = [
-'httpServer'
+'httpServer',
+'bridge'
 ];
 
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");

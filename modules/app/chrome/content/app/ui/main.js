@@ -37,10 +37,41 @@ const MainUI = new function() {
 	}
 
 	/**
+	 * Opens the extensions manager
+	 */
+	this.openExtensionsManager = function() {
+		window.openDialog('chrome://mozapps/content/extensions/extensions.xul', 'extensions', 'chrome');
+	}
+
+	/**
 	 * Checks for updates
 	 */
 	this.checkForUpdates = function() {
 		window.open('chrome://mozapps/content/update/updates.xul', 'updateChecker', 'chrome,centerscreen');
 	}
+
+	/**
+	 * Run when standalone window first opens
+	 */
+	this.onLoad = function() {
+		if(!App || !App.initialized) {
+			window.close();
+			return;
+		}
+
+		// Make MainUI available globally
+		App.MainUI = MainUI;
+
+	}
+
+	/**
+	 * Called before standalone window is closed
+	 */
+	this.onUnload = function() {
+		//MainPane.destroy();
+	}
 	
 }
+
+window.addEventListener("load", function(e) { MainUI.onLoad(e); }, false);
+window.addEventListener("unload", function(e) { MainUI.onUnload(e); }, false);

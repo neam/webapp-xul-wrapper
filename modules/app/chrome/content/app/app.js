@@ -34,12 +34,20 @@
 	this.getWebAppDirectory = getWebAppDirectory;
 	this.getRootPrefBranch = getRootPrefBranch;
 	this.debug = debug;
+	this.safeDebug = safeDebug;
+	this.getString = getString;
+	this.nativeNotification = nativeNotification;
 	
 	// Public properties
 	this.initialized = false;
 	this.version = null;
 	this.build = null;
+	this.appName = null;
+	this.MainUI = null;
 	
+	// Private properties
+	var _localizedStringBundle;
+
 	/**
 	 * Initialize the wrapper
 	 */
@@ -55,6 +63,22 @@
 		this.version = appInfo.version;
 		this.build = appInfo.appBuildID;
 		
+		// Load in the localization stringbundle for use by getString(name)
+		var stringBundleService =
+			Components.classes["@mozilla.org/intl/stringbundle;1"]
+			.getService(Components.interfaces.nsIStringBundleService);
+		var localeService = Components.classes['@mozilla.org/intl/nslocaleservice;1'].
+							getService(Components.interfaces.nsILocaleService);
+		var appLocale = localeService.getApplicationLocale();
+
+		_localizedStringBundle = stringBundleService.createBundle(
+			"chrome://app/locale/app.properties", appLocale);
+
+		// Also load the brand as appName
+		var brandBundle = stringBundleService.createBundle(
+			"chrome://branding/locale/brand.properties", appLocale);
+		this.appName = brandBundle.GetStringFromName("brandShortName");
+
 		if(!_initModules()) return false;
 		this.initComplete();
 		
@@ -75,6 +99,9 @@
 	function _initModules() {
 		if(getRootPrefBranch().getBoolPref("app.httpServer.enabled")) {
 			App.HttpServer.init();
+		}
+		if(getRootPrefBranch().getBoolPref("app.bridge.enabled")) {
+			App.Bridge.init(App);
 		}
 		return true;
 	}
@@ -102,6 +129,56 @@
 
 	function debug(msg) {
 		dump(msg + "\n");
+	}
+
+	function safeDebug(obj){
+		for (var i in obj){
+			try {
+				App.debug(i + ': ' + obj[i]);
+			}
+			catch (e){
+				try {
+					App.debug(i + ': ERROR');
+				}
+				catch (e){}
+			}
+		}
+	}
+	
+	function getString(name, params){
+		try {
+			if (params != undefined){
+				if (typeof params != 'object'){
+					params = [params];
+				}
+				var l10n = _localizedStringBundle.formatStringFromName(name, params, params.length);
+			}
+			else {
+				var l10n = _localizedStringBundle.GetStringFromName(name);
+			}
+		}
+		catch (e){
+			throw ('Localized string not available for ' + name);
+		}
+		return l10n;
+	}
+
+	function nativeNotification(title, text, image) {
+
+		try {
+			// TODO: Add support for callback depending on user interaction with alert
+			Components.classes['@mozilla.org/alerts-service;1'].
+					getService(Components.interfaces.nsIAlertsService).
+					showAlertNotification(image, title, text, false, '', null);
+		} catch (e) {
+			// For platforms that don't implement nsIAlertsService
+			var win = Components.classes['@mozilla.org/embedcomp/window-watcher;1'].
+					getService(Components.interfaces.nsIWindowWatcher).
+					openWindow(null, 'chrome://global/content/alerts/alert.xul',
+					'_blank', 'chrome,titlebar=no,popup=yes', null);
+			win.arguments = [image, title, text, false, ''];
+		}
+
 	}
 
 }).call(App);
