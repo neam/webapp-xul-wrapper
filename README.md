@@ -29,7 +29,9 @@ For a more in-depth overview of current Standalone Web App Cross-Platform Deskto
 Get started
 -----------------------------
 Instructions for building and packaging are mostly the same as for Zotero Standalone and are available on the [Zotero wiki](http://www.zotero.org/support/dev/client_coding/building_the_standalone_client).
-It is recommended that you follow those in order to build a standalone version of the sample webapp that is bundled with the project.
+It is recommended that you follow those in order to build a standalone version of the Kitchen Sink webapp that is bundled with the project:
+
+![Screenshot of the Kitchen Sink](https://raw.github.com/neam/webapp-xul-wrapper-kitchensink/develop/misc/screen.png "Screenshot of the Kitchen Sink")
 
 When that is working for you, you can package your own webapp:
 
@@ -38,6 +40,8 @@ When that is working for you, you can package your own webapp:
 3. Change the WEBAPPMODULE variable in config.sh to point to your webapp directory
 4. If necessary, update the url for the browser tag in modules/app/chrome/content/app/ui/main.xul
 5. Customize branding and metadata to your liking
+
+The Kitchen Sink acts as a reference implementation for how to send messages between the webapp and the wrapper XUL application. 
 
 Tips
 -----------------------------
