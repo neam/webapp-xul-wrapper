@@ -99,6 +99,12 @@ This will produce the relevant application update packages for Mac, Linux and Wi
 Changelog
 -----------------------------
 
+1.2.0 (2013-05-24)
+
+ - Kitchen Sink sample app (default build target) to demonstrate some of Webapp XUL Wrapper's features
+ - Messaging between webapp and XUL application
+ - Native notifications
+
 1.1.0 (2013-01-11)
 
  - Easier generation of update packages for partial application updates
