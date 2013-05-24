@@ -33,6 +33,10 @@ It is recommended that you follow those in order to build a standalone version o
 
 ![Screenshot of the Kitchen Sink](https://raw.github.com/neam/webapp-xul-wrapper-kitchensink/develop/misc/screen.png "Screenshot of the Kitchen Sink")
 
+If your system is properly configured and you are using OSX, you should be able to get the Kitchen Sink running as per above by executing:
+
+     ./run-kitchensink.sh
+
 When that is working for you, you can package your own webapp:
 
 1. Fork this project
@@ -41,7 +45,7 @@ When that is working for you, you can package your own webapp:
 4. If necessary, update the url for the browser tag in modules/app/chrome/content/app/ui/main.xul
 5. Customize branding and metadata to your liking
 
-The Kitchen Sink acts as a reference implementation for how to send messages between the webapp and the wrapper XUL application. 
+The Kitchen Sink acts as a reference implementation for how to send messages between the webapp and the wrapper XUL application. (Hint: Check the scripts under the folder indicated by the BRIDGESCRIPTS variable in config.sh)
 
 Tips
 -----------------------------
