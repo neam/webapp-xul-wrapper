@@ -114,7 +114,7 @@ if [ -z "$UPDATE_CHANNEL" ]; then UPDATE_CHANNEL="default"; fi
 	cp -R "$CALLDIR/assets/branding" "$BUILDDIR/$MODULE/chrome/branding"
 	
 	# Copy bridge scripts
-	if [ -d "$BRIDGESCRIPTS" ]; then
+	if [ -d "$CALLDIR/modules/$BRIDGESCRIPTS" ]; then
 		if [ ! -d "$BUILDDIR/$MODULE/chrome/content/app/bridge" ]; then mkdir -p "$BUILDDIR/$MODULE/chrome/content/app/bridge"; fi
 		cp -R "$CALLDIR/modules/$BRIDGESCRIPTS" "$BUILDDIR/$MODULE/chrome/content/app/bridge";
 	fi
