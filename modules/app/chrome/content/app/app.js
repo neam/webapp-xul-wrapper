@@ -79,6 +79,7 @@
 			"chrome://branding/locale/brand.properties", appLocale);
 		this.appName = brandBundle.GetStringFromName("brandShortName");
 
+		// Init modules
 		if(!_initModules()) return false;
 		this.initComplete();
 		
