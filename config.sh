@@ -41,7 +41,7 @@ BUILDDIR="/tmp/app-build-`uuidgen | head -c 8`"
 # Module to use as XUL app for build
 MODULE="app"
 # Module containing webapp to wrap
-WEBAPPMODULE="kitchensink/app/"
+WEBAPPMODULE="kitchensink/dist/"
 # Directory containing privileged scripts to be copied to the application's chrome contents
 BRIDGESCRIPTS="kitchensink/bridge/"
 # Directory for unpacked binaries
