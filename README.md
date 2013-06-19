@@ -26,7 +26,7 @@ Benefits
 
 For a more in-depth overview of current Standalone Web App Cross-Platform Desktop Distribution Solutions, [check this out](http://blog.neamlabs.com/post/36584972328/2012-11-26-web-app-cross-platform-desktop-distribution).
 
-Get started
+Getting started
 -----------------------------
 Instructions for building and packaging are mostly the same as for Zotero Standalone and are available on the [Zotero wiki](http://www.zotero.org/support/dev/client_coding/building_the_standalone_client).
 It is recommended that you follow those in order to build a standalone version of the Kitchen Sink webapp that is bundled with the project:
@@ -35,17 +35,60 @@ It is recommended that you follow those in order to build a standalone version o
 
 If your system is properly configured and you are using OSX, you should be able to get the Kitchen Sink running as per above by executing:
 
-     ./run-kitchensink.sh
+     git submodule init
+     git submodule update
+     cd modules/kitchensink
+     npm install
+     bower install
+     grunt build
+     cd ../../
+     bash run-kitchensink.sh
 
 When that is working for you, you can package your own webapp:
 
 1. Fork this project
 2. Add your webapp as a git submodule in the modules directory
 3. Change the WEBAPPMODULE variable in config.sh to point to your webapp directory
-4. If necessary, update the url for the browser tag in modules/app/chrome/content/app/ui/main.xul
+4. Choose an unused server port
 5. Customize branding and metadata to your liking
 
 The Kitchen Sink acts as a reference implementation for how to send messages between the webapp and the wrapper XUL application. (Hint: Check the scripts under the folder indicated by the BRIDGESCRIPTS variable in config.sh)
+
+Configure your application's local HTTP server port
+-----------------------------
+
+No apps sharing the same port can be open at the same time (the one opened later will show the contents of the application opened first...), thus before shipping your application, make sure to do the following:
+
+1. Choose an unused port other than 57187 (no apps sharing the same port can be open the same time)
+2. Change the pref in modules/app/defaults/preferences/app.js (the port for the internal http server)
+3. Update the port in the url for the <browser> tag in modules/app/chrome/content/app/ui/main.xul
+
+Customizing branding and metadata
+-----------------------------
+
+These files currently contain branding and metadata about your application, and should be checked and adjusted before publishing your own application:
+
+     assets/application.ini                  
+     assets/branding/locale/brand.dtd      
+     assets/branding/locale/brand.properties
+     assets/prefs.js                        
+     assets/updater.ini                    
+     config.sh                              
+     mac/Contents/Info.plist                
+     mac/Contents/PkgInfo                  
+     win/installer/app.tag                  
+     win/installer/branding.nsi            
+     win/installer/defines.nsi              
+     assets/icons/default/default.icns      
+     assets/icons/default/default128.png    
+     assets/icons/default/default16.png    
+     assets/icons/default/default256.png    
+     assets/icons/default/default32.png    
+     assets/icons/default/default48.png    
+     assets/icons/default/favicon_16x16.ico
+     assets/icons/default/favicon_32x32.ico
+     assets/icons/default/main-window.ico  
+     assets/icons/default/source/default.png
 
 Tips
 -----------------------------
