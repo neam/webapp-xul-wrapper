@@ -86,7 +86,7 @@ fi
 BUILDID=`date +%Y%m%d`
 
 shopt -s extglob
-mkdir "$BUILDDIR"
+mkdir -p "$BUILDDIR"
 
 # Make sure STAGEDIR exists
 if [ ! -d "$STAGEDIR" ]; then mkdir -p "$STAGEDIR"; fi
